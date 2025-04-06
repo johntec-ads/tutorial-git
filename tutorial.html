@@ -19,6 +19,7 @@
     <title>Tutorial Git/GitHub/VS Code</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
+    <script src="search.js" defer></script>
 </head>
 <body>
     <nav role="navigation" aria-label="Menu principal" class="nav-container">
@@ -39,6 +40,11 @@
             <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌓</button>
         </div>
     </nav>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Pesquisar no tutorial..." aria-label="Pesquisar">
+        <div id="search-results" class="search-results"></div>
+    </div>
 
     <h1 id="tutorial-inicio">Tutorial Git/GitHub/VS Code: Gerenciamento de Branches via Terminal</h1>
 
@@ -72,6 +78,7 @@
 
     <h3>Fluxo Básico de Commit:</h3>
     <pre><code><span class="git-command">git</span> <span class="git-command">status</span> <span class="git-comment"># Verificar alterações</span>
+<span class="git-command">git</span> <span class="git-command">diff</span> <span class="git-comment"># Ver mudanças detalhadas</span>
 <span class="git-command">git</span> <span class="git-command">add</span> <span class="git-argument">.</span> <span class="git-comment"># Adicionar todas as alterações</span>
 <span class="git-command">git</span> <span class="git-command">commit</span> <span class="git-option">-m</span> "<span class="git-argument">feat: adiciona funcionalidade de login</span>"</code></pre>
 
@@ -80,23 +87,14 @@
         <li><strong>Verifique Antes:</strong> Use <code>git status</code> e <code>git diff</code></li>
         <li><strong>Commits Frequentes:</strong> Faça commits pequenos e frequentes</li>
         <li><strong>Mensagens Padronizadas:</strong>
-            <pre><code><span class="git-comment"># Estrutura recomendada:</span>
-<span class="git-command">tipo</span>(<span class="git-argument">escopo</span>): descrição curta
-
-[corpo opcional]
-
-[rodapé opcional]</code></pre>
-        </li>
-        <li><strong>Tipos Comuns:</strong>
-            <ul>
-                <li><code>feat:</code> - Nova funcionalidade</li>
-                <li><code>fix:</code> - Correção de bug</li>
-                <li><code>docs:</code> - Documentação</li>
-                <li><code>style:</code> - Formatação</li>
-                <li><code>refactor:</code> - Refatoração</li>
-                <li><code>test:</code> - Testes</li>
-                <li><code>chore:</code> - Tarefas de manutenção</li>
-            </ul>
+            <pre><code><span class="git-comment"># Exemplos de boas mensagens de commit:</span>
+<span class="git-command">feat</span>(<span class="git-argument">auth</span>): implementa autenticação via Google
+<span class="git-command">fix</span>(<span class="git-argument">login</span>): corrige validação de senha
+<span class="git-command">docs</span>(<span class="git-argument">readme</span>): atualiza instruções de instalação
+<span class="git-command">style</span>(<span class="git-argument">css</span>): ajusta layout responsivo
+<span class="git-command">refactor</span>(<span class="git-argument">api</span>): melhora performance das consultas
+<span class="git-command">test</span>(<span class="git-argument">unit</span>): adiciona testes para módulo de pagamento
+<span class="git-command">chore</span>(<span class="git-argument">deps</span>): atualiza dependências</code></pre>
         </li>
     </ol>
 
@@ -386,6 +384,30 @@
         <li><a href="https://learngitbranching.js.org/" target="_blank">Learn Git Branching (Interativo)</a></li>
         <li><a href="https://code.visualstudio.com/docs/editor/versioncontrol" target="_blank">Git no VS Code</a></li>
     </ul>
+
+    <hr>
+
+    <h2 id="seguranca">Boas Práticas de Segurança</h2>
+    
+    <div class="warning">
+        <p>⚠️ <strong>Nunca compartilhe ou comite:</strong></p>
+        <ul>
+            <li>Chaves de API ou tokens de acesso</li>
+            <li>Senhas ou credenciais</li>
+            <li>Arquivos de ambiente (.env)</li>
+            <li>Logs ou dumps de banco de dados</li>
+        </ul>
+    </div>
+
+    <h3>Dicas de Segurança:</h3>
+    <ul>
+        <li>Use <code>.gitignore</code> para excluir arquivos sensíveis</li>
+        <li>Verifique commits com <code>git diff</code> antes de enviá-los</li>
+        <li>Configure duas etapas de autenticação no GitHub</li>
+        <li>Revise permissões de colaboradores regularmente</li>
+    </ul>
+
+    <hr>
 
     <div id="voltar-topo">↑</div>
 
