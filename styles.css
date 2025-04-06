@@ -1,0 +1,388 @@
+:root {
+    --primary-color: #2b3a55;
+    --secondary-color: #3457D5;
+    --accent-color: #00bf8f;
+    --text-color: #333;
+    --bg-color: #ffffff;
+    --code-bg: #f8f8f8;
+    --warning-color: #ff6b6b;
+    --mobile-breakpoint: 768px;
+
+    /* Modo escuro */
+    --dark-bg: #1a1a1a;
+    --dark-text: #ffffff;
+    --dark-code-bg: #2d2d2d;
+    --dark-primary: #4a5b85;
+    --dark-secondary: #5677e5;
+    --dark-accent: #00d4a0;
+    --dark-warning: #ff8f8f;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: clamp(10px, 2vw, 20px);
+    color: var(--text-color);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+nav {
+    background: var(--primary-color);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 1rem;
+    padding: 0.5rem;
+}
+
+nav a:hover {
+    background: var(--secondary-color);
+    border-radius: 4px;
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+}
+
+h1 {
+    border-bottom: 3px solid var(--accent-color);
+    padding-bottom: 15px;
+    margin-top: 2rem;
+}
+
+.git-command { color: var(--secondary-color); font-weight: bold; }
+.git-option { color: var(--accent-color); }
+.git-argument { color: #e67e22; }
+.git-comment { color: #7f8c8d; }
+
+code {
+    background-color: var(--code-bg);
+    padding: 3px 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+}
+
+pre {
+    background-color: var(--code-bg);
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow-x: auto;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.warning {
+    color: var(--warning-color);
+    background: #fff5f5;
+    padding: 1rem;
+    border-left: 4px solid var(--warning-color);
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.faq-section {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.faq-item {
+    margin-bottom: 1.5rem;
+}
+
+.faq-question {
+    cursor: pointer;
+    color: var(--primary-color);
+    font-weight: bold;
+    padding: 1rem;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: #f0f0f0;
+}
+
+.faq-answer {
+    padding: 1rem;
+    margin-top: 0.5rem;
+    background: white;
+    border-radius: 4px;
+    display: none;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+p, li {
+    font-size: 1rem;
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+:focus {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Botão Voltar ao Topo */
+#voltar-topo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-color);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1000;
+}
+
+#voltar-topo.visible {
+    opacity: 1;
+}
+
+#voltar-topo:hover {
+    background: var(--secondary-color);
+}
+
+/* Links externos */
+a[target="_blank"]::after {
+    content: "↗";
+    margin-left: 3px;
+}
+
+/* Melhorias na navegação mobile */
+@media (max-width: var(--mobile-breakpoint)) {
+    nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    nav a {
+        display: block;
+        margin: 0;
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
+
+/* Menu Hamburguer */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.hamburger {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+.hamburger::before { top: -8px; }
+.hamburger::after { bottom: -8px; }
+
+.menu-toggle.active .hamburger {
+    transform: rotate(45deg);
+}
+
+.menu-toggle.active .hamburger::before {
+    transform: rotate(90deg);
+    top: 0;
+}
+
+.menu-toggle.active .hamburger::after {
+    transform: rotate(90deg);
+    bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: var(--primary-color);
+        padding: 1rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        transform: translateY(-10px);
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .nav-links a {
+        padding: 1rem;
+        margin: 0;
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+
+    .theme-toggle {
+        margin-top: 1rem;
+        width: 100%;
+    }
+}
+
+/* Modo escuro */
+[data-theme="dark"] {
+    background-color: var(--dark-bg);
+    color: var(--dark-text) !important; /* Força texto claro */
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3 {
+    color: var(--dark-accent);
+}
+
+[data-theme="dark"] nav {
+    background: var(--dark-primary);
+}
+
+[data-theme="dark"] nav a {
+    color: var(--dark-text);
+}
+
+[data-theme="dark"] code {
+    background-color: var(--dark-code-bg);
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] pre {
+    background-color: var(--dark-code-bg);
+    border-color: #444;
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] li,
+[data-theme="dark"] ul,
+[data-theme="dark"] ol,
+[data-theme="dark"] strong,
+[data-theme="dark"] em {
+    color: var(--dark-text);
+}
+
+[data-theme="dark"] a {
+    color: var(--dark-accent);
+}
+
+[data-theme="dark"] a:hover {
+    color: var(--accent-color);
+}
+
+[data-theme="dark"] .faq-section {
+    background: #2d2d2d;
+}
+
+[data-theme="dark"] .faq-question {
+    background: #333;
+    color: var(--dark-text);
+}
+
+[data-theme="dark"] .faq-answer {
+    background: #333;
+    color: var(--dark-text);
+}
+
+[data-theme="dark"] .warning {
+    background: #332222;
+    color: var(--dark-warning);
+    border-color: var(--dark-warning);
+}
+
+[data-theme="dark"] .git-command { color: #79b8ff; }
+[data-theme="dark"] .git-option { color: #85e89d; }
+[data-theme="dark"] .git-argument { color: #ffab70; }
+[data-theme="dark"] .git-comment { color: #959da5; }
+
+/* Estilo do botão de tema */
+.theme-toggle {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+[data-theme="dark"] .theme-toggle {
+    border-color: var(--dark-text);
+    color: var(--dark-text);
+}

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tutorial completo sobre Git, GitHub e VS Code com foco em gerenciamento de branches via terminal">
+    <meta name="keywords" content="git, github, vscode, terminal, branches, tutorial">
+    <meta name="author" content="Tutorial Git">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="manifest" href="assets/site.webmanifest">
+    <link rel="shortcut icon" href="assets/fivecon.png.jpeg">
+    <meta name="theme-color" content="#2b3a55">
+    
+    <title>Tutorial Git/GitHub/VS Code</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav role="navigation" aria-label="Menu principal" class="nav-container">
+        <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menu">
+            <span class="hamburger"></span>
+        </button>
+        <div class="nav-links">
+            <a href="#tutorial-inicio">Início</a>
+            <a href="#pre-requisitos">Pré-requisitos</a>
+            <a href="#git-commits">Commits</a>
+            <a href="#criando-branch">Nova Branch</a>
+            <a href="#erros-git">Erros</a>
+            <a href="#merge-branch">Merge</a>
+            <a href="#faq">FAQ</a>
+            <a href="#git-stash">Git Stash</a>
+            <a href="#git-flow">Git Flow</a>
+            <a href="#recursos">Recursos</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌓</button>
+        </div>
+    </nav>
+
+    <h1 id="tutorial-inicio">Tutorial Git/GitHub/VS Code: Gerenciamento de Branches via Terminal</h1>
+
+    <p>Este tutorial foca no uso do terminal (integrado no VS Code ou externo) para gerenciar branches no Git e GitHub, cobrindo criação, commits essenciais, correção de erros e merge.</p>
+
+    <p><strong>Contexto:</strong> Usuário do VS Code com projeto Git/GitHub buscando aprofundar o uso do terminal.</p>
+
+    <hr>
+
+    <h2 id="pre-requisitos">Pré-requisitos</h2>
+
+    <ol>
+        <li><strong>Git Instalado:</strong> Verifique com <code><span class="git-command">git</span> <span class="git-option">--version</span></code>.</li>
+        <li><strong>VS Code Instalado:</strong> Com acesso ao terminal integrado (<code>Ctrl+`</code> ou <code>Cmd+`</code>).</li>
+        <li><strong>Projeto Existente:</strong> Pasta com <code><span class="git-command">git</span> <span class="git-command">init</span></code> já executado e, idealmente, conectado a um repositório remoto (<code><span class="git-command">git</span> <span class="git-command">remote</span> <span class="git-command">add</span> <span class="git-argument">origin</span> &lt;URL&gt;</code>).</li>
+        <li><strong>Branch Principal:</strong> Assumimos <code><span class="git-argument">master</span></code> ou <code><span class="git-argument">main</span></code>. Adapte os comandos se necessário.</li>
+    </ol>
+
+    <hr>
+
+    <h2 id="git-commits">Commits: Salvando Alterações</h2>
+
+    <p><strong>Objetivo:</strong> Entender como fazer commits efetivos e boas práticas.</p>
+
+    <h3>Anatomia de um Bom Commit:</h3>
+    <ul>
+        <li><strong>Mensagens Claras:</strong> Descreva o que e por que, não como</li>
+        <li><strong>Commits Atômicos:</strong> Uma mudança lógica por commit</li>
+        <li><strong>Convenções:</strong> Use prefixos como feat:, fix:, docs:, etc.</li>
+    </ul>
+
+    <h3>Fluxo Básico de Commit:</h3>
+    <pre><code><span class="git-command">git</span> <span class="git-command">status</span> <span class="git-comment"># Verificar alterações</span>
+<span class="git-command">git</span> <span class="git-command">add</span> <span class="git-argument">.</span> <span class="git-comment"># Adicionar todas as alterações</span>
+<span class="git-command">git</span> <span class="git-command">commit</span> <span class="git-option">-m</span> "<span class="git-argument">feat: adiciona funcionalidade de login</span>"</code></pre>
+
+    <h3>Boas Práticas de Commit:</h3>
+    <ol>
+        <li><strong>Verifique Antes:</strong> Use <code>git status</code> e <code>git diff</code></li>
+        <li><strong>Commits Frequentes:</strong> Faça commits pequenos e frequentes</li>
+        <li><strong>Mensagens Padronizadas:</strong>
+            <pre><code><span class="git-comment"># Estrutura recomendada:</span>
+<span class="git-command">tipo</span>(<span class="git-argument">escopo</span>): descrição curta
+
+[corpo opcional]
+
+[rodapé opcional]</code></pre>
+        </li>
+        <li><strong>Tipos Comuns:</strong>
+            <ul>
+                <li><code>feat:</code> - Nova funcionalidade</li>
+                <li><code>fix:</code> - Correção de bug</li>
+                <li><code>docs:</code> - Documentação</li>
+                <li><code>style:</code> - Formatação</li>
+                <li><code>refactor:</code> - Refatoração</li>
+                <li><code>test:</code> - Testes</li>
+                <li><code>chore:</code> - Tarefas de manutenção</li>
+            </ul>
+        </li>
+    </ol>
+
+    <hr>
+
+    <h2 id="criando-branch">Nova Branch: Criando e Gerenciando</h2>
+
+    <p><strong>Objetivo:</strong> Isolar novas funcionalidades ou correções sem afetar a versão estável (<code><span class="git-argument">master</span></code>/<code><span class="git-argument">main</span></code>).</p>
+
+    <h3>Boas Práticas de Nomenclatura:</h3>
+    <ul>
+        <li><strong>Descritiva:</strong> Indique o propósito (ex: <code><span class="git-argument">feature/login-screen</span></code>, <code><span class="git-argument">fix/bug-123</span></code>).</li>
+        <li><strong>Consistente:</strong> Use prefixos (<code><span class="git-argument">feature/</span></code>, <code><span class="git-argument">fix/</span></code>, <code><span class="git-argument">hotfix/</span></code>, <code><span class="git-argument">release/</span></code>).</li>
+        <li><strong>Curta e Clara:</strong> Evite ambiguidades.</li>
+        <li><strong>Use Hífens:</strong> Separe palavras com <code>-</code>.</li>
+    </ul>
+
+    <h3>Passos no Terminal do VS Code:</h3>
+    <ol>
+        <li><strong>Abra o Terminal:</strong> <code>Ctrl+`</code> ou <code>Cmd+`</code>.</li>
+        <li><strong>Verifique e Vá para a Branch Principal:</strong>
+            <pre><code><span class="git-command">git</span> <span class="git-command">status</span> <span class="git-comment"># Verifica a branch atual</span>
+<span class="git-comment"># Se não estiver na principal, mude:</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">master</span> <span class="git-comment"># ou git checkout main</span></code></pre>
+        </li>
+        <li><strong>(Recomendado) Atualize a Branch Principal:</strong>
+            <pre><code><span class="git-command">git</span> <span class="git-command">pull</span> <span class="git-argument">origin</span> <span class="git-argument">master</span> <span class="git-comment"># ou git pull origin main</span></code></pre>
+        </li>
+        <li><strong>Crie e Mude para a Nova Branch:</strong> (Ex: <code><span class="git-argument">feature/login-screen</span></code>)
+            <pre><code><span class="git-comment"># Opção 1: Tradicional</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-option">-b</span> <span class="git-argument">feature/login-screen</span>
+
+<span class="git-comment"># Opção 2: Moderna</span>
+<span class="git-command">git</span> <span class="git-command">switch</span> <span class="git-option">-c</span> <span class="git-argument">feature/login-screen</span></code></pre>
+            <p><em>Confirmação: O terminal indicará a mudança.</em></p>
+        </li>
+        <li><strong>(Opcional) Publique a Nova Branch no GitHub:</strong> (Necessário para colaborar/backup)
+            <pre><code><span class="git-command">git</span> <span class="git-command">push</span> <span class="git-option">-u</span> <span class="git-argument">origin</span> <span class="git-argument">feature/login-screen</span></code></pre>
+            <p><em>O <code><span class="git-option">-u</span></code> vincula a branch local à remota para futuros <code><span class="git-command">git</span> <span class="git-command">push</span></code>.</em></p>
+        </li>
+    </ol>
+
+    <p><strong>Agora você está na nova branch (<code><span class="git-argument">feature/login-screen</span></code>). É hora de começar a trabalhar e salvar seu progresso.</strong></p>
+
+    <hr>
+
+    <h2 id="erros-git">Lidando com Erros no Git</h2>
+
+    <p><strong>Cenário:</strong> Você fez commits na branch alternativa (<code><span class="git-argument">feature/login-screen</span></code>), mas o resultado não foi bom e precisa reverter ou descartar.</p>
+
+    <h3>Opção A: Descartar a Branch Inteira (Local e Remota)</h3>
+
+    <p><em>Use se a branch inteira está comprometida.</em></p>
+
+    <ol>
+        <li><strong>Salve Código Útil (se houver):</strong> Copie manualmente trechos importantes para fora do projeto.</li>
+        <li><strong>Mude para a Branch Principal:</strong>
+            <pre><code><span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">master</span> <span class="git-comment"># ou git checkout main</span></code></pre>
+        </li>
+        <li><strong>Delete a Branch Localmente (Forçado):</strong>
+            <pre><code><span class="git-command">git</span> <span class="git-command">branch</span> <span class="git-option">-D</span> <span class="git-argument">feature/login-screen</span></code></pre>
+            <p><em><code><span class="git-option">-D</span></code> (maiúsculo) força a deleção mesmo sem merge.</em></p>
+        </li>
+        <li><strong>Delete a Branch Remotamente (no GitHub):</strong> (Se já publicou)
+            <pre><code><span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-option">--delete</span> <span class="git-argument">feature/login-screen</span></code></pre>
+        </li>
+    </ol>
+
+    <p><strong>Resultado:</strong> A branch <code><span class="git-argument">feature/login-screen</span></code> é removida local e remotamente.</p>
+
+    <h3>Opção B: Desfazer Commits na Branch Atual (Reverter para um Estado Anterior)</h3>
+
+    <p><em>Use se quer manter a branch, mas voltar a um commit específico.</em></p>
+
+    <p class="warning">⚠️ CUIDADO: Isso reescreve o histórico. <strong>Perigoso</strong> se a branch for compartilhada. Prefira <code><span class="git-command">git</span> <span class="git-command">revert</span></code> em branches colaborativas.</p>
+
+    <ol>
+        <li><strong>Identifique o Commit para Onde Voltar:</strong>
+            <pre><code><span class="git-command">git</span> <span class="git-command">log</span> <span class="git-option">--oneline</span> <span class="git-option">--graph</span>
+<span class="git-comment"># Anote o hash do commit desejado (ex: a1b2c3d)</span></code></pre>
+        </li>
+        <li><strong>Resete a Branch para Aquele Commit (Descartando Posteriores):</strong>
+            <pre><code><span class="git-comment"># Substitua 'a1b2c3d' pelo hash real</span>
+<span class="git-command">git</span> <span class="git-command">reset</span> <span class="git-option">--hard</span> <span class="git-argument">a1b2c3d</span></code></pre>
+            <p><code><span class="git-command">reset</span> <span class="git-option">--hard</span></code> <strong>descarta permanentemente</strong> alterações e commits após o hash especificado.</p>
+            <p>Use <code><span class="git-command">git</span> <span class="git-command">reflog</span></code> para encontrar hashes anteriores se precisar desfazer o reset.</p>
+        </li>
+        <li><strong>Atualize a Branch Remota (Com Cuidado):</strong> (Se já publicou os commits ruins)
+            <pre><code><span class="git-comment"># Use --force-with-lease (mais seguro que --force)</span>
+<span class="git-command">git</span> <span class="git-command">push</span> <span class="git-option">--force-with-lease</span> <span class="git-argument">origin</span> <span class="git-argument">feature/login-screen</span></code></pre>
+            <p><em>Isso força o histórico remoto a espelhar o seu local reescrito.</em></p>
+        </li>
+    </ol>
+
+    <hr>
+
+    <h2 id="merge-branch">Mesclando Branches</h2>
+
+    <p><strong>Cenário:</strong> O trabalho na <code><span class="git-argument">feature/login-screen</span></code> está concluído, testado e pronto para ser incorporado à <code><span class="git-argument">master</span></code>/<code><span class="git-argument">main</span></code>.</p>
+
+    <h3>Passos no Terminal (Merge Direto):</h3>
+
+    <ol>
+        <li><strong>Finalize a Feature Branch:</strong>
+            <ul>
+                <li>Verifique <code><span class="git-command">git</span> <span class="git-command">status</span></code> (deve estar "working tree clean").</li>
+                <li>Certifique-se que todos os commits necessários foram feitos (Parte 1.5).</li>
+                <li>Envie os últimos commits (se remota): <code><span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-argument">feature/login-screen</span></code>.</li>
+            </ul>
+        </li>
+        <li><strong>Mude para a Branch Destino:</strong>
+            <pre><code><span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">master</span> <span class="git-comment"># ou git checkout main</span></code></pre>
+        </li>
+        <li><strong>Atualize a Branch Destino:</strong> <strong>CRUCIAL</strong> para evitar conflitos desnecessários.
+            <pre><code><span class="git-command">git</span> <span class="git-command">pull</span> <span class="git-argument">origin</span> <span class="git-argument">master</span> <span class="git-comment"># ou git pull origin main</span></code></pre>
+        </li>
+        <li><strong>Mescle (Merge) a Feature Branch:</strong>
+            <pre><code><span class="git-command">git</span> <span class="git-command">merge</span> <span class="git-argument">feature/login-screen</span></code></pre>
+            <ul>
+                <li><strong>Sem Conflitos:</strong> O Git fará o merge (fast-forward ou criando um commit de merge).</li>
+                <li><strong>Com Conflitos:</strong>
+                    <ul>
+                        <li>Git avisará: <code>Automatic merge failed; fix conflicts...</code>.</li>
+                        <li>Abra os arquivos conflitantes no VS Code (ele ajuda a visualizar com <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>).</li>
+                        <li>Edite os arquivos, remova os marcadores e salve a versão correta.</li>
+                        <li>Adicione os arquivos resolvidos: <code><span class="git-command">git</span> <span class="git-command">add</span> &lt;arquivo_resolvido1&gt; ...</code> ou <code><span class="git-command">git</span> <span class="git-command">add</span> <span class="git-argument">.</span></code>.</li>
+                        <li>Complete o merge: <code><span class="git-command">git</span> <span class="git-command">commit</span></code> (o Git sugere uma mensagem padrão).</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><strong>Envie a Master/Main Atualizada para o GitHub:</strong>
+            <pre><code><span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-argument">master</span> <span class="git-comment"># ou git push origin main</span></code></pre>
+        </li>
+        <li><strong>(Boa Prática) Delete a Feature Branch (Já Mesclada):</strong>
+            <ul>
+                <li><strong>Localmente:</strong>
+                    <pre><code><span class="git-comment"># -d minúsculo só deleta se já mesclada</span>
+<span class="git-command">git</span> <span class="git-command">branch</span> <span class="git-option">-d</span> <span class="git-argument">feature/login-screen</span></code></pre>
+                </li>
+                <li><strong>Remotamente:</strong>
+                    <pre><code><span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-option">--delete</span> <span class="git-argument">feature/login-screen</span></code></pre>
+                </li>
+            </ul>
+        </li>
+    </ol>
+
+    <h3>Alternativa: Fluxo com Pull Request (GitHub) - Recomendado</h3>
+
+    <p><em>Adiciona revisão e é padrão em equipes.</em></p>
+
+    <ol>
+        <li>Após garantir que a branch <code><span class="git-argument">feature/login-screen</span></code> está completa e no GitHub (<code><span class="git-command">git</span> <span class="git-command">push</span> <span class="git-option">-u</span> <span class="git-argument">origin</span> <span class="git-argument">feature/login-screen</span></code>), vá para a página do seu repositório no GitHub.</li>
+        <li>Clique em "Compare & pull request" para a branch recém-enviada.</li>
+        <li>Preencha a descrição do Pull Request (PR) e crie-o.</li>
+        <li><strong>Revisão:</strong> Você ou um colega revisa as alterações na interface do GitHub.</li>
+        <li><strong>Merge:</strong> Se aprovado, clique em "Merge pull request" no GitHub. O merge acontece no servidor remoto.</li>
+        <li><strong>(Opcional)</strong> Delete a branch remota pelo botão do GitHub após o merge.</li>
+        <li><strong>Atualize Localmente:</strong>
+            <pre><code><span class="git-comment"># Volte para a branch principal</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">master</span> <span class="git-comment"># ou git checkout main</span>
+<span class="git-comment"># Traga as alterações (incluindo o merge) do remoto</span>
+<span class="git-command">git</span> <span class="git-command">pull</span> <span class="git-argument">origin</span> <span class="git-argument">master</span> <span class="git-comment"># ou git pull origin main</span></code></pre>
+        </li>
+        <li><strong>Delete a Branch Local:</strong>
+            <pre><code><span class="git-command">git</span> <span class="git-command">branch</span> <span class="git-option">-d</span> <span class="git-argument">feature/login-screen</span></code></pre>
+        </li>
+    </ol>
+
+    <hr>
+
+    <h2 id="faq">Perguntas Frequentes (FAQ)</h2>
+
+    <div class="faq-section">
+        <div class="faq-item">
+            <div class="faq-question">Como desfazer o último commit?</div>
+            <div class="faq-answer">
+                <p>Para desfazer o último commit mantendo as alterações:</p>
+                <code>git reset --soft HEAD~1</code>
+                <p>Para desfazer e descartar as alterações:</p>
+                <code>git reset --hard HEAD~1</code>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Como resolver conflitos no merge?</div>
+            <div class="faq-answer">
+                <ol>
+                    <li>Abra os arquivos com conflito no VS Code</li>
+                    <li>Procure por marcadores <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code></li>
+                    <li>Escolha qual versão manter ou combine-as</li>
+                    <li>Remova os marcadores de conflito</li>
+                    <li>Salve o arquivo</li>
+                    <li>Execute: <code>git add .</code> seguido de <code>git commit</code></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Como voltar para uma versão anterior do código?</div>
+            <div class="faq-answer">
+                <p>1. Para visualizar o histórico:</p>
+                <code>git log --oneline</code>
+                <p>2. Para voltar a um commit específico:</p>
+                <code>git checkout [hash-do-commit]</code>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Como criar uma nova branch e mudar para ela?</div>
+            <div class="faq-answer">
+                <p>Use o comando:</p>
+                <code>git checkout -b nome-da-branch</code>
+                <p>Ou na versão mais moderna:</p>
+                <code>git switch -c nome-da-branch</code>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2 id="git-stash">Git Stash: Salvando Trabalho Temporário</h2>
+    
+    <p><strong>Objetivo:</strong> Salvar alterações temporárias sem fazer commit quando precisar mudar de branch.</p>
+
+    <h3>Comandos Principais:</h3>
+    <pre><code><span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">save</span> "<span class="git-argument">mensagem descritiva</span>" <span class="git-comment"># Salva alterações</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">list</span> <span class="git-comment"># Lista stashes</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">pop</span> <span class="git-comment"># Aplica e remove o último stash</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">apply</span> <span class="git-comment"># Aplica sem remover</span></code></pre>
+
+    <hr>
+
+    <h2 id="git-flow">Git Flow: Estratégia de Branches</h2>
+    
+    <p><strong>Conceito:</strong> Metodologia para organizar branches em projetos maiores.</p>
+
+    <h3>Estrutura Principal:</h3>
+    <ul>
+        <li><code><span class="git-argument">main</span></code>: Código em produção</li>
+        <li><code><span class="git-argument">develop</span></code>: Base para desenvolvimento</li>
+        <li><code><span class="git-argument">feature/*</span></code>: Novas funcionalidades</li>
+        <li><code><span class="git-argument">hotfix/*</span></code>: Correções urgentes</li>
+        <li><code><span class="git-argument">release/*</span></code>: Preparação para release</li>
+    </ul>
+
+    <hr>
+
+    <h2 id="exercicios">Exercícios Práticos</h2>
+
+    <div class="exercises-section">
+        <div class="exercise-item">
+            <h3>Exercício 1: Criando e Mesclando Branches</h3>
+            <div class="exercise-content">
+                <p>Objetivo: Praticar criação e merge de branches</p>
+                <ol>
+                    <li>Crie uma nova branch chamada "feature/exercicio-1"</li>
+                    <li>Adicione um arquivo README.md com seu nome</li>
+                    <li>Faça commit das alterações</li>
+                    <li>Volte para a branch principal e faça o merge</li>
+                </ol>
+                <button class="check-exercise" data-exercise="1">Verificar Solução</button>
+            </div>
+        </div>
+        
+        <div class="exercise-item">
+            <h3>Exercício 2: Resolvendo Conflitos</h3>
+            <div class="exercise-content">
+                <p>Objetivo: Praticar resolução de conflitos</p>
+                <ol>
+                    <li>Crie duas branches: "feature/a" e "feature/b"</li>
+                    <li>Em cada uma, modifique a mesma linha do README.md</li>
+                    <li>Tente fazer o merge e resolva o conflito</li>
+                </ol>
+                <button class="check-exercise" data-exercise="2">Verificar Solução</button>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2 id="recursos">Recursos Adicionais</h2>
+    
+    <ul>
+        <li><a href="https://git-scm.com/doc" target="_blank">Documentação Oficial do Git</a></li>
+        <li><a href="https://docs.github.com/pt" target="_blank">Documentação do GitHub</a></li>
+        <li><a href="https://learngitbranching.js.org/" target="_blank">Learn Git Branching (Interativo)</a></li>
+        <li><a href="https://code.visualstudio.com/docs/editor/versioncontrol" target="_blank">Git no VS Code</a></li>
+    </ul>
+
+    <div id="voltar-topo">↑</div>
+
+    <hr>
+
+    <h2>Conclusão</h2>
+
+    <p>Dominar o fluxo de <code><span class="git-command">status</span> -> <span class="git-command">add</span> -> <span class="git-command">commit</span></code> é fundamental para usar o Git eficientemente. Combinado com o gerenciamento de branches, permite um desenvolvimento mais organizado e seguro. Pratique esses comandos no terminal para ganhar fluência.</p>
+
+</body>
+</html>
