@@ -2,9 +2,12 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description" content="Tutorial sobre Git Cherry-pick - como aplicar commits específicos de uma branch para outra">
     <meta name="keywords" content="git, cherry-pick, tutorial, commit, branch">
+    <meta name="theme-color" content="#2b3a55">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Git Cherry-pick - Tutorial Git</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="timeline.css">
@@ -191,5 +194,21 @@
     <div id="voltar-topo">↑</div>
 
     <script src="exercises.js" defer></script>
+
+    <!-- Ajuste nas tabelas para garantir rolagem horizontal em dispositivos móveis -->
+    <style>
+        @media (max-width: 768px) {
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+            }
+            
+            .exercise-solution pre {
+                max-width: 100%;
+                overflow-x: auto;
+            }
+        }
+    </style>
 </body>
 </html>

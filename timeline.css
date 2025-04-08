@@ -95,3 +95,54 @@ kbd {
     border-color: var(--dark-primary);
     color: var(--dark-text);
 }
+
+/* Media queries para responsividade da timeline */
+@media (max-width: 768px) {
+    .progress-timeline {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin: 1.5rem auto;
+        padding: 0 10px;
+    }
+
+    .progress-timeline::before {
+        display: none; /* Remove a linha conectora em mobile */
+    }
+
+    .timeline-item {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        flex: 0 1 auto;
+        text-align: center;
+    }
+    
+    .shortcuts-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .shortcut-card {
+        padding: 0.8rem;
+        gap: 0.5rem;
+    }
+    
+    kbd {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-timeline {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .timeline-item {
+        margin: 0;
+        width: 100%;
+        border-radius: 10px;
+    }
+}

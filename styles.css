@@ -469,3 +469,110 @@ a[target="_blank"]::after {
 [data-theme="dark"] .search-results a:hover {
     background: var(--dark-code-bg);
 }
+
+/* ==== MELHORIAS DE RESPONSIVIDADE ==== */
+
+/* Ajustes gerais para dispositivos móveis */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        margin-top: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin-top: 1.2rem;
+    }
+
+    h3 {
+        font-size: 1.3rem;
+    }
+
+    /* Melhorar a visualização de código em telas menores */
+    pre {
+        max-width: 100%;
+        font-size: 14px;
+        padding: 10px;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    code {
+        font-size: 14px;
+        max-width: 100%;
+        white-space: normal;
+    }
+
+    /* Ajustar tabelas para visualização mobile */
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Ajustar área de pesquisa para mobile */
+    .search-container {
+        position: relative;
+        top: auto;
+        margin: 1rem 0;
+        width: 100%;
+    }
+}
+
+/* Ajustes específicos para smartphones */
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+        font-size: 15px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    nav {
+        padding: 0.5rem;
+    }
+
+    pre, code {
+        font-size: 13px;
+    }
+
+    /* Ajustar exercícios para telas muito pequenas */
+    .exercise-item {
+        padding: 0.8rem;
+    }
+
+    /* Tornar caixas de aviso responsivas */
+    .warning {
+        padding: 0.8rem;
+        margin: 0.8rem 0;
+        font-size: 0.9rem;
+    }
+    
+    /* Ajustar o FAQ para telas pequenas */
+    .faq-section {
+        padding: 1rem;
+    }
+    
+    .faq-question {
+        padding: 0.8rem;
+    }
+    
+    .faq-answer {
+        padding: 0.8rem;
+    }
+    
+    /* Ajustar botões para toque em mobile */
+    button, .check-exercise, .theme-toggle {
+        min-height: 44px; /* Garantir área de toque adequada */
+        padding: 8px 12px;
+    }
+}

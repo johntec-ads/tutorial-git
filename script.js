@@ -119,9 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelector('.nav-links');
 
     if (menuToggle) {
-        menuToggle.addEventListener('click', () => {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Impede que o evento se propague
             menuToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
+            
+            // Melhoria para acessibilidade
+            const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+            menuToggle.setAttribute('aria-expanded', !expanded);
         });
 
         // Fechar menu ao clicar em um link
@@ -129,15 +134,37 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', () => {
                 menuToggle.classList.remove('active');
                 navLinks.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
             });
         });
 
         // Fechar menu ao clicar fora da área de navegação
         document.addEventListener('click', (e) => {
-            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+            if (menuToggle.classList.contains('active') && 
+                !navLinks.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
                 menuToggle.classList.remove('active');
                 navLinks.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
             }
         });
+        
+        // Inicializar o estado do menu
+        menuToggle.setAttribute('aria-expanded', 'false');
     }
+    
+    // Ajuste de viewport para dispositivos móveis
+    function adjustViewportForMobile() {
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        if (viewportMeta && window.innerWidth <= 768) {
+            // Garante que o zoom inicial esteja adequado para dispositivos móveis
+            viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0');
+        }
+    }
+    
+    // Chamar ajuste ao carregar
+    adjustViewportForMobile();
+    
+    // E também ao redimensionar (em caso de rotação do dispositivo)
+    window.addEventListener('resize', adjustViewportForMobile);
 });

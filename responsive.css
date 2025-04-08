@@ -1,0 +1,133 @@
+/**
+ * Responsividade Global - Tutorial Git
+ *
+ * Este arquivo contém regras de CSS adicionais para garantir 
+ * que o site seja totalmente responsivo em todos os dispositivos.
+ */
+
+/* Regra geral para garantir que elementos não ultrapassem o contêiner */
+img, iframe, video, object, embed {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Ajustes para a navegação mobile */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0.5rem;
+    }
+    
+    .menu-toggle {
+        display: block;
+        margin-right: 10px;
+    }
+    
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--primary-color);
+        flex-direction: column;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+        z-index: 1000;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .nav-links.active {
+        max-height: 500px;
+        padding: 0.5rem;
+    }
+    
+    .nav-links a {
+        padding: 0.8rem;
+        margin: 0.2rem 0;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+    
+    .theme-toggle {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Ajuste para exemplos de código */
+@media (max-width: 768px) {
+    pre {
+        position: relative;
+        padding-right: 0.5rem;
+    }
+    
+    /* Indicador de rolagem horizontal */
+    pre::after {
+        content: '→';
+        position: absolute;
+        right: 10px;
+        bottom: 5px;
+        color: rgba(128,128,128,0.6);
+        font-size: 1.2rem;
+        pointer-events: none;
+        animation: fadeInOut 1.5s infinite alternate;
+        display: none; /* Inicialmente escondido */
+    }
+    
+    /* Mostra o indicador apenas se houver rolagem horizontal */
+    pre.has-overflow::after {
+        display: block;
+    }
+    
+    @keyframes fadeInOut {
+        from { opacity: 0.4; }
+        to { opacity: 0.9; }
+    }
+}
+
+/* Ajustes para elementos interativos */
+@media (max-width: 480px) {
+    button, 
+    .check-exercise, 
+    input[type="submit"], 
+    input[type="button"] {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+    
+    .exercise-content ol, 
+    .exercise-content ul {
+        padding-left: 1.2rem;
+    }
+    
+    .search-container {
+        position: relative;
+        z-index: 89; /* Abaixo do menu mobile */
+    }
+}
+
+/* Detecta se há overflow em elementos pre e adiciona classe */
+window.addEventListener('DOMContentLoaded', () => {
+    const preElements = document.querySelectorAll('pre');
+    
+    function checkOverflow() {
+        preElements.forEach(pre => {
+            if (pre.scrollWidth > pre.clientWidth) {
+                pre.classList.add('has-overflow');
+            } else {
+                pre.classList.remove('has-overflow');
+            }
+        });
+    }
+    
+    // Checar no carregamento e no redimensionamento
+    checkOverflow();
+    window.addEventListener('resize', checkOverflow);
+});
