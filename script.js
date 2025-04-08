@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinks.classList.toggle('active');
             
             // Melhoria para acessibilidade
-            const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+            const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
             menuToggle.setAttribute('aria-expanded', !expanded);
         });
 
@@ -259,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Script carregado - Timeline deve estar ativa');
 
     // Garantir que a timeline esteja visível e funcional
-    const timelineItems = document.querySelectorAll('.timeline-item');
     if (timelineItems.length > 0) {
         console.log('Timeline encontrada com ' + timelineItems.length + ' itens');
         

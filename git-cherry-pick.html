@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=5.0">maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description" content="Tutorial sobre Git Cherry-pick - como aplicar commits específicos de uma branch para outra">
     <meta name="keywords" content="git, cherry-pick, tutorial, commit, branch">
     <meta name="theme-color" content="#2b3a55">
@@ -14,6 +14,7 @@
     <script src="script.js" defer></script>
     <script src="search.js" defer></script>
     <script src="pwa.js" defer></script>
+    <script src="timeline-fix.js" defer></script>
 </head>
 <body>
     <nav role="navigation" aria-label="Menu principal" class="nav-container">
@@ -195,7 +196,7 @@
     <div id="voltar-topo">↑</div>
 
     <script src="exercises.js" defer></script>
-
+ntal em dispositivos móveis -->
     <!-- Script para verificar o carregamento do CSS -->
     <script>>
         window.addEventListener('load', function() {nto da página
@@ -210,9 +211,9 @@
                         console.log('timeline.css encontrado e carregado');se;
                     }imelineItems.forEach(function(item) {
                 } catch(e) {       if (item.classList.contains('active')) {
-                    console.error('Erro ao verificar stylesheet:', e);            activeFound = true;
-                } ' + item.textContent);
-            });
+                    console.error('Erro ao verificar stylesheet:', e);            activeFound = true;e */
+                } ' + item.textContent);ne-hint {
+            });display: block;
             
             if (!timelineCSSFound) {nto de clique se não estiver funcionando
                 console.warn('timeline.css não encontrado ou não carregado! Aplicando estilos fallback');istener('click', function() {
@@ -221,7 +222,7 @@
                 const fallbackStyles = document.createElement('style');ara a URL correta
                 fallbackStyles.textContent = `tion = '#';
                     .progress-timeline {           switch(this.textContent.trim()) {
-                        display: flex;                case 'Introdução': destination = 'index.html#tutorial-inicio'; break;
+                        display: flex;                case 'Introdução': destination = 'index.html#tutorial-inicio'; break;aço */
                         justify-content: space-between;its'; break;
                         margin: 2rem auto;hes': destination = 'index.html#criando-branch'; break;
                         max-width: 800px; 'Merge/Rebase': destination = 'git-rebase.html'; break;
@@ -230,101 +231,4 @@
                     }               case 'CI/CD': destination = 'index.html#github-actions'; break;
                     .timeline-item {        }
                         position: relative;             
-                        background: var(--bg-color, #ffffff);             // Navega para o destino
-                        padding: 10px 20px;                    window.location.href = destination;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</html></body>    </style>        }            }                display: none;            .timeline-hint {        @media (max-width: 768px) {        /* Oculta a dica em dispositivos móveis para economizar espaço */                }            font-style: italic;            margin-top: 0.5rem;            opacity: 0.7;            color: var(--text-color);            font-size: 0.8rem;            text-align: center;            display: block;        .timeline-hint {        /* Estilo para a dica da timeline */                }            }                overflow-x: auto;                max-width: 100%;            .exercise-solution pre {                        }                overflow-x: auto;                width: 100%;                display: block;            table {        @media (max-width: 768px) {    <style>    <!-- Ajuste nas tabelas para garantir rolagem horizontal em dispositivos móveis -->    </script>        });            }                document.head.appendChild(fallbackStyles);                `;                    }                        color: white;                        background: var(--primary-color, #2b3a55);                    .timeline-item.active {                    }                        cursor: pointer;                        z-index: 2;                        border: 2px solid var(--primary-color, #2b3a55);                        border-radius: 20px;                });
-            });
-            
-            if (!activeFound && timelineItems.length > 0) {
-                timelineItems[0].classList.add('active');
-                console.log('Nenhum item ativo encontrado. Primeiro item ativado.');
-            }
-        });
-    </script>
-
-    <!-- Ajuste nas tabelas para garantir rolagem horizontal em dispositivos móveis -->
-    <style>
-        @media (max-width: 768px) {
-            table {
-                display: block;
-                width: 100%;
-                overflow-x: auto;
-            }
-            
-            .exercise-solution pre {
-                max-width: 100%;
-                overflow-x: auto;
-            }
-        }
-        
-        /* Estilo para a dica da timeline */
-        .timeline-hint {
-            display: block;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-color);
-            opacity: 0.7;
-            margin-top: 0.5rem;
-            font-style: italic;
-        }
-        
-        /* Oculta a dica em dispositivos móveis para economizar espaço */
-        @media (max-width: 768px) {
-            .timeline-hint {
-                display: none;
-            }
-        }
-    </style>
-</body>
-</html>
+                        background: var(--bg-color, #ffffff);             // Navega para o destino                        padding: 10px 20px;                    window.location.href = destination;</html></body>    </style>        }            }                display: none;            .timeline-hint {        @media (max-width: 768px) {        /* Oculta a dica em dispositivos móveis para economizar espaço */                }            font-style: italic;            margin-top: 0.5rem;            opacity: 0.7;            color: var(--text-color);            font-size: 0.8rem;            text-align: center;            display: block;        .timeline-hint {        /* Estilo para a dica da timeline */                }            }                overflow-x: auto;                max-width: 100%;            .exercise-solution pre {                        }                overflow-x: auto;                width: 100%;                display: block;            table {        @media (max-width: 768px) {    <style>    <!-- Ajuste nas tabelas para garantir rolagem horizontal em dispositivos móveis -->    </script>        });            }                document.head.appendChild(fallbackStyles);                `;                    }                        color: white;                        background: var(--primary-color, #2b3a55);                    .timeline-item.active {                    }                        cursor: pointer;                        z-index: 2;                        border: 2px solid var(--primary-color, #2b3a55);                        border-radius: 20px;                });            });                        if (!activeFound && timelineItems.length > 0) {                timelineItems[0].classList.add('active');                console.log('Nenhum item ativo encontrado. Primeiro item ativado.');            }        });    </script>    <!-- Ajuste nas tabelas para garantir rolagem horizontal em dispositivos móveis -->    <style>        @media (max-width: 768px) {            table {                display: block;                width: 100%;                overflow-x: auto;            }                        .exercise-solution pre {                max-width: 100%;                overflow-x: auto;            }        }                /* Estilo para a dica da timeline */        .timeline-hint {            display: block;            text-align: center;            font-size: 0.8rem;            color: var(--text-color);            opacity: 0.7;            margin-top: 0.5rem;            font-style: italic;        }                /* Oculta a dica em dispositivos móveis para economizar espaço */        @media (max-width: 768px) {            .timeline-hint {                display: none;            }        }    </style></body></html>
