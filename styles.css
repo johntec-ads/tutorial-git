@@ -157,8 +157,12 @@ p, li {
     cursor: pointer;
     font-size: 20px;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, background-color 0.3s;
     z-index: 1000;
+    border: none; /* Garantir que não tenha borda que possa interferir */
+    padding: 0; /* Remover qualquer padding que possa afetar o alinhamento */
+    text-decoration: none; /* Remover decoração de texto caso seja implementado como um link */
+    user-select: none; /* Impedir seleção de texto no botão */
 }
 
 #voltar-topo.visible {

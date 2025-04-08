@@ -60,10 +60,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnVoltar.addEventListener('click', () => {
+        // Solução para garantir que a página role completamente até o topo
         window.scrollTo({
             top: 0,
+            left: 0,
             behavior: 'smooth'
         });
+        
+        // Verificação adicional para garantir que chegue ao topo
+        // em casos onde o comportamento smooth pode não funcionar perfeitamente
+        setTimeout(() => {
+            if (window.scrollY > 0) {
+                window.scrollTo(0, 0);
+            }
+        }, 1000); // Espera 1 segundo após a animação de rolagem
     });
 
     // Atualiza aria-expanded nos FAQs para acessibilidade
