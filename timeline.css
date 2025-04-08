@@ -40,12 +40,61 @@
     z-index: 2;
     cursor: pointer;
     transition: all 0.3s ease; /* Transição suave ao mudar de estado */
+    
+    /* Melhorias de interatividade */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efeito hover para mostrar interatividade */
+.timeline-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Efeito de clique */
+.timeline-item:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+/* Efeito de foco para acessibilidade */
+.timeline-item:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-color);
 }
 
 /* Estado ativo para o item atual da timeline */
 .timeline-item.active {
     background: var(--primary-color);
     color: white;
+    font-weight: bold;
+    transform: scale(1.05);
+}
+
+/* Tooltip de ajuda */
+.timeline-item::after {
+    content: 'Clique para navegar';
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-color);
+    color: var(--text-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    z-index: 3;
+}
+
+.timeline-item:hover::after {
+    opacity: 1;
+    bottom: -40px;
 }
 
 /* Grade responsiva para exibição de atalhos de teclado */

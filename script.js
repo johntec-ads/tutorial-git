@@ -167,4 +167,91 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // E também ao redimensionar (em caso de rotação do dispositivo)
     window.addEventListener('resize', adjustViewportForMobile);
+
+    /**
+     * Progress Timeline Navigation
+     * Permite ao usuário navegar entre as principais seções do tutorial
+     * e destaca visualmente a seção atual
+     */
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    // Mapeamento dos itens da timeline para seções/páginas correspondentes
+    const timelineMappings = {
+        'Introdução': 'index.html#tutorial-inicio',
+        'Básico': 'index.html#git-commits',
+        'Branches': 'index.html#criando-branch',
+        'Merge/Rebase': 'git-rebase.html',
+        'Avançado': 'git-tags.html',
+        'GitHub': 'github-actions.html',
+        'CI/CD': 'index.html#github-actions'
+    };
+
+    // Determina qual item da timeline deve estar ativo com base na URL atual
+    function updateActiveTimelineItem() {
+        const currentPath = window.location.pathname;
+        const currentHash = window.location.hash;
+        
+        // Condição padrão - nenhum item ativo
+        let activeFound = false;
+        
+        timelineItems.forEach(item => {
+            const itemText = item.textContent.trim();
+            const mappedPath = timelineMappings[itemText] || '';
+            
+            // Verifica se estamos na página correspondente a este item
+            if (
+                (currentPath.includes('index.html') && mappedPath.startsWith('index.html') && 
+                (currentHash === '' || mappedPath.includes(currentHash))) ||
+                (currentPath.includes('git-rebase.html') && itemText === 'Merge/Rebase') ||
+                (currentPath.includes('git-cherry-pick.html') && itemText === 'Merge/Rebase') ||
+                (currentPath.includes('git-tags.html') && itemText === 'Avançado') ||
+                (currentPath.includes('git-stash.html') && itemText === 'Avançado') ||
+                (currentPath.includes('git-hooks.html') && itemText === 'Avançado') ||
+                (currentPath.includes('git-submodules.html') && itemText === 'Avançado') ||
+                (currentPath.includes('git-flow.html') && itemText === 'Avançado') ||
+                (currentPath.includes('github-actions.html') && itemText === 'GitHub')
+            ) {
+                item.classList.add('active');
+                activeFound = true;
+            } else {
+                item.classList.remove('active');
+            }
+        });
+        
+        // Se nenhum item foi marcado como ativo, ativa o primeiro por padrão
+        if (!activeFound && timelineItems.length > 0) {
+            timelineItems[0].classList.add('active');
+        }
+    }
+    
+    // Adiciona navegação aos itens da timeline
+    timelineItems.forEach(item => {
+        const itemText = item.textContent.trim();
+        const destination = timelineMappings[itemText] || '#';
+        
+        // Torna os itens clicáveis
+        item.style.cursor = 'pointer';
+        item.setAttribute('role', 'link');
+        item.setAttribute('aria-label', `Navegar para seção ${itemText}`);
+        item.setAttribute('tabindex', '0');
+        
+        // Adiciona evento de clique
+        item.addEventListener('click', () => {
+            window.location.href = destination;
+        });
+        
+        // Adiciona navegação por teclado
+        item.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                window.location.href = destination;
+            }
+        });
+    });
+    
+    // Atualiza o item ativo na timeline quando a página carrega
+    updateActiveTimelineItem();
+    
+    // Atualiza também quando o hash da URL muda
+    window.addEventListener('hashchange', updateActiveTimelineItem);
 });

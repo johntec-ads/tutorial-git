@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=5.0">
     <meta name="description" content="Tutorial sobre Git Cherry-pick - como aplicar commits específicos de uma branch para outra">
     <meta name="keywords" content="git, cherry-pick, tutorial, commit, branch">
     <meta name="theme-color" content="#2b3a55">
@@ -45,7 +45,7 @@
         <div id="search-results" class="search-results"></div>
     </div>
 
-    <div class="progress-timeline">
+    <div class="progress-timeline" aria-label="Menu de navegação por seções do tutorial">
         <div class="timeline-item">Introdução</div>
         <div class="timeline-item">Básico</div>
         <div class="timeline-item">Branches</div>
@@ -53,6 +53,7 @@
         <div class="timeline-item">Avançado</div>
         <div class="timeline-item">GitHub</div>
         <div class="timeline-item">CI/CD</div>
+        <span class="timeline-hint">Esta barra mostra seu progresso no tutorial e permite navegar entre seções principais</span>
     </div>
 
     <h1 id="git-cherry-pick">Git Cherry-pick: Selecionando Commits Específicos</h1>
@@ -207,6 +208,24 @@
             .exercise-solution pre {
                 max-width: 100%;
                 overflow-x: auto;
+            }
+        }
+        
+        /* Estilo para a dica da timeline */
+        .timeline-hint {
+            display: block;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        /* Oculta a dica em dispositivos móveis para economizar espaço */
+        @media (max-width: 768px) {
+            .timeline-hint {
+                display: none;
             }
         }
     </style>
