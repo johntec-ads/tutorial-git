@@ -18,8 +18,11 @@
     
     <title>Tutorial Git/GitHub/VS Code</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="timeline.css">
     <script src="script.js" defer></script>
     <script src="search.js" defer></script>
+    <script src="exercises.js" defer></script>
+    <script src="pwa.js" defer></script>
 </head>
 <body>
     <nav role="navigation" aria-label="Menu principal" class="nav-container">
@@ -33,9 +36,14 @@
             <a href="#criando-branch">Nova Branch</a>
             <a href="#erros-git">Erros</a>
             <a href="#merge-branch">Merge</a>
-            <a href="#faq">FAQ</a>
+            <a href="#git-rebase">Rebase</a>
+            <a href="#git-cherry-pick">Cherry-pick</a>
+            <a href="#git-tags">Tags</a>
+            <a href="#git-submodules">Submodules</a>
+            <a href="#git-hooks">Hooks</a>
             <a href="#git-stash">Git Stash</a>
             <a href="#git-flow">Git Flow</a>
+            <a href="#github-actions">Actions</a>
             <a href="#recursos">Recursos</a>
             <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌓</button>
         </div>
@@ -44,6 +52,16 @@
     <div class="search-container">
         <input type="text" id="search-input" placeholder="Pesquisar no tutorial..." aria-label="Pesquisar">
         <div id="search-results" class="search-results"></div>
+    </div>
+
+    <div class="progress-timeline">
+        <div class="timeline-item active">Introdução</div>
+        <div class="timeline-item">Básico</div>
+        <div class="timeline-item">Branches</div>
+        <div class="timeline-item">Merge/Rebase</div>
+        <div class="timeline-item">Avançado</div>
+        <div class="timeline-item">GitHub</div>
+        <div class="timeline-item">CI/CD</div>
     </div>
 
     <h1 id="tutorial-inicio">Tutorial Git/GitHub/VS Code: Gerenciamento de Branches via Terminal</h1>
@@ -126,7 +144,6 @@
         <li><strong>Crie e Mude para a Nova Branch:</strong> (Ex: <code><span class="git-argument">feature/login-screen</span></code>)
             <pre><code><span class="git-comment"># Opção 1: Tradicional</span>
 <span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-option">-b</span> <span class="git-argument">feature/login-screen</span>
-
 <span class="git-comment"># Opção 2: Moderna</span>
 <span class="git-command">git</span> <span class="git-command">switch</span> <span class="git-option">-c</span> <span class="git-argument">feature/login-screen</span></code></pre>
             <p><em>Confirmação: O terminal indicará a mudança.</em></p>
@@ -201,7 +218,7 @@
         <li><strong>Finalize a Feature Branch:</strong>
             <ul>
                 <li>Verifique <code><span class="git-command">git</span> <span class="git-command">status</span></code> (deve estar "working tree clean").</li>
-                <li>Certifique-se que todos os commits necessários foram feitos (Parte 1.5).</li>
+                <li>Certifique-se que todos os commits necessários foram feitos.</li>
                 <li>Envie os últimos commits (se remota): <code><span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-argument">feature/login-screen</span></code>.</li>
             </ul>
         </li>
@@ -229,7 +246,7 @@
         <li><strong>Envie a Master/Main Atualizada para o GitHub:</strong>
             <pre><code><span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-argument">master</span> <span class="git-comment"># ou git push origin main</span></code></pre>
         </li>
-        <li><strong>(Boa Prática) Delete a Feature Branch (Já Mesclada):</strong>
+        <li><strong>(Boa Prática) Delete a Feature Branch (Já Mesclada):</strong></li>
             <ul>
                 <li><strong>Localmente:</strong>
                     <pre><code><span class="git-comment"># -d minúsculo só deleta se já mesclada</span>
@@ -266,8 +283,22 @@
 
     <hr>
 
-    <h2 id="faq">Perguntas Frequentes (FAQ)</h2>
+    <h2 id="vscode-shortcuts">Atalhos úteis do VS Code</h2>
+    <div class="shortcuts-grid">
+        <div class="shortcut-card">
+            <kbd>Ctrl</kbd> + <kbd>`</kbd>
+            <span>Abrir/Fechar Terminal</span>
+        </div>
+        <div class="shortcut-card">
+            <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd>
+            <span>Abrir Git</span>
+        </div>
+        <!-- Mais atalhos... -->
+    </div>
 
+    <hr>
+
+    <h2 id="faq">Perguntas Frequentes (FAQ)</h2>
     <div class="faq-section">
         <div class="faq-item">
             <div class="faq-question">Como desfazer o último commit?</div>
@@ -278,7 +309,6 @@
                 <code>git reset --hard HEAD~1</code>
             </div>
         </div>
-
         <div class="faq-item">
             <div class="faq-question">Como resolver conflitos no merge?</div>
             <div class="faq-answer">
@@ -292,7 +322,6 @@
                 </ol>
             </div>
         </div>
-
         <div class="faq-item">
             <div class="faq-question">Como voltar para uma versão anterior do código?</div>
             <div class="faq-answer">
@@ -302,7 +331,6 @@
                 <code>git checkout [hash-do-commit]</code>
             </div>
         </div>
-
         <div class="faq-item">
             <div class="faq-question">Como criar uma nova branch e mudar para ela?</div>
             <div class="faq-answer">
@@ -329,7 +357,7 @@
     <hr>
 
     <h2 id="git-flow">Git Flow: Estratégia de Branches</h2>
-    
+
     <p><strong>Conceito:</strong> Metodologia para organizar branches em projetos maiores.</p>
 
     <h3>Estrutura Principal:</h3>

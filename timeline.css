@@ -1,0 +1,75 @@
+.progress-timeline {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem auto;
+    max-width: 800px;
+    position: relative;
+    padding: 0 20px;
+}
+
+.progress-timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+    z-index: 1;
+}
+
+.timeline-item {
+    position: relative;
+    background: var(--bg-color);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid var(--primary-color);
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.timeline-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.shortcut-card {
+    background: var(--code-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+kbd {
+    background: #eee;
+    border-radius: 4px;
+    padding: 2px 6px;
+    border: 1px solid #ccc;
+    font-family: monospace;
+}
+
+[data-theme="dark"] .timeline-item {
+    background: var(--dark-bg);
+    border-color: var(--dark-primary);
+}
+
+[data-theme="dark"] .timeline-item.active {
+    background: var(--dark-primary);
+}
+
+[data-theme="dark"] kbd {
+    background: var(--dark-code-bg);
+    border-color: var(--dark-primary);
+    color: var(--dark-text);
+}
