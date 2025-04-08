@@ -254,4 +254,29 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Atualiza também quando o hash da URL muda
     window.addEventListener('hashchange', updateActiveTimelineItem);
+    
+    // Verificar se o script está sendo executado
+    console.log('Script carregado - Timeline deve estar ativa');
+
+    // Garantir que a timeline esteja visível e funcional
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    if (timelineItems.length > 0) {
+        console.log('Timeline encontrada com ' + timelineItems.length + ' itens');
+        
+        // Garantir que pelo menos um item esteja ativo
+        let anyActive = false;
+        timelineItems.forEach(item => {
+            if (item.classList.contains('active')) {
+                anyActive = true;
+                console.log('Item ativo encontrado: ' + item.textContent);
+            }
+        });
+        
+        if (!anyActive && timelineItems.length > 0) {
+            console.log('Nenhum item ativo encontrado, ativando o primeiro');
+            timelineItems[0].classList.add('active');
+        }
+    } else {
+        console.warn('Timeline não encontrada no DOM');
+    }
 });
