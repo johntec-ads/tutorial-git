@@ -1,19 +1,39 @@
+/**
+ * Módulo de Pesquisa - Tutorial Git
+ * 
+ * Este arquivo implementa a funcionalidade de busca em tempo real no tutorial,
+ * permitindo que os usuários encontrem rapidamente conteúdo específico.
+ * 
+ * Características:
+ * - Pesquisa com debounce para melhor performance
+ * - Destaque do termo pesquisado nos resultados
+ * - Navegação direta para a seção correspondente
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Elementos DOM principais
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results');
+    // Seleção de todos os elementos que podem ser pesquisados
     const searchableElements = document.querySelectorAll('h1, h2, h3, p, li');
     let debounceTimer;
 
+    /**
+     * Manipula evento de entrada do usuário com debounce
+     * para evitar muitas pesquisas durante a digitação rápida
+     */
     searchInput.addEventListener('input', (e) => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             const query = e.target.value.toLowerCase().trim();
             
+            // Ignora pesquisas muito curtas
             if (query.length < 2) {
                 searchResults.style.display = 'none';
                 return;
             }
 
+            // Procura por correspondências no conteúdo
             const matches = [];
             searchableElements.forEach(element => {
                 if (element.textContent.toLowerCase().includes(query)) {
@@ -36,9 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             displayResults(matches, query);
-        }, 300);
+        }, 300); // 300ms de debounce
     });
 
+    /**
+     * Exibe os resultados da pesquisa na interface
+     * @param {Array} matches - Resultados encontrados
+     * @param {string} query - Termo pesquisado
+     */
     function displayResults(matches, query) {
         searchResults.innerHTML = '';
         
@@ -48,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Exibe até 5 resultados mais relevantes
         matches.slice(0, 5).forEach(match => {
             const result = document.createElement('a');
             result.href = match.id ? `#${match.id}` : '#';
@@ -71,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         searchResults.style.display = 'block';
     }
 
-    // Fecha resultados ao clicar fora
+    // Fecha resultados ao clicar fora da área de pesquisa
     document.addEventListener('click', (e) => {
         if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
             searchResults.style.display = 'none';

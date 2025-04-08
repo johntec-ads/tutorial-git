@@ -1,5 +1,19 @@
+/**
+ * Script Principal - Tutorial Git
+ * 
+ * Este arquivo controla as funcionalidades interativas principais do tutorial,
+ * incluindo o comportamento do FAQ, botão de retorno ao topo, gerenciamento de tema
+ * e menu responsivo para dispositivos móveis.
+ * 
+ * O script é carregado de forma assíncrona para melhorar o desempenho da página.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
-    // FAQ interativo
+    /**
+     * Sistema de FAQ Interativo
+     * Permite que os usuários abram/fechem itens de perguntas frequentes
+     * com suporte a acessibilidade
+     */
     const faqItems = document.querySelectorAll('.faq-item');
     
     faqItems.forEach(item => {
@@ -17,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // Adiciona suporte a teclado
+        // Adiciona suporte a teclado para acessibilidade
         question.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -30,7 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         question.setAttribute('aria-expanded', 'false');
     });
 
-    // Botão Voltar ao Topo
+    /**
+     * Botão Voltar ao Topo
+     * Aparece quando o usuário rola para baixo e permite retornar
+     * ao início da página suavemente
+     */
     const btnVoltar = document.getElementById('voltar-topo');
     
     window.addEventListener('scroll', () => {
@@ -48,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Atualiza aria-expanded nos FAQs
+    // Atualiza aria-expanded nos FAQs para acessibilidade
     document.querySelectorAll('.faq-question').forEach(question => {
         question.setAttribute('aria-expanded', 'false');
         
@@ -58,16 +76,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Gerenciamento do tema
+    /**
+     * Sistema de Alternância de Tema (Claro/Escuro)
+     * Mantém a preferência do usuário no localStorage
+     */
     const themeToggle = document.getElementById('theme-toggle');
     
     if (themeToggle) {
-        // Inicializar o tema
+        // Inicializar o tema com preferência salva ou padrão
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌓';
 
-        // Adicionar evento de clique
+        // Adicionar evento de clique para alternar tema
         themeToggle.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -80,7 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Menu Hamburguer
+    /**
+     * Menu Hambúrguer para Dispositivos Móveis
+     * Implementa navegação responsiva que se adapta a telas pequenas
+     */
     const menuToggle = document.getElementById('menu-toggle');
     const navLinks = document.querySelector('.nav-links');
 
@@ -98,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Fechar menu ao clicar fora
+        // Fechar menu ao clicar fora da área de navegação
         document.addEventListener('click', (e) => {
             if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
                 menuToggle.classList.remove('active');

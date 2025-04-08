@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tutorial sobre Git Tags - como marcar pontos significativos no histórico do repositório">
+    <meta name="keywords" content="git, tags, tutorial, versões, releases">
+    <title>Git Tags - Tutorial Git</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="timeline.css">
+    <script src="script.js" defer></script>
+    <script src="search.js" defer></script>
+    <script src="pwa.js" defer></script>
+</head>
+<body>
+    <nav role="navigation" aria-label="Menu principal" class="nav-container">
+        <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menu">
+            <span class="hamburger"></span>
+        </button>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="index.html#pre-requisitos">Pré-requisitos</a>
+            <a href="index.html#git-commits">Commits</a>
+            <a href="index.html#criando-branch">Nova Branch</a>
+            <a href="index.html#erros-git">Erros</a>
+            <a href="index.html#merge-branch">Merge</a>
+            <a href="git-rebase.html">Rebase</a>
+            <a href="git-cherry-pick.html">Cherry-pick</a>
+            <a href="#git-tags">Tags</a>
+            <a href="git-submodules.html">Submodules</a>
+            <a href="git-hooks.html">Hooks</a>
+            <a href="git-stash.html">Git Stash</a>
+            <a href="git-flow.html">Git Flow</a>
+            <a href="github-actions.html">Actions</a>
+            <a href="index.html#recursos">Recursos</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌓</button>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Pesquisar no tutorial..." aria-label="Pesquisar">
+        <div id="search-results" class="search-results"></div>
+    </div>
+
+    <div class="progress-timeline">
+        <div class="timeline-item">Introdução</div>
+        <div class="timeline-item">Básico</div>
+        <div class="timeline-item">Branches</div>
+        <div class="timeline-item">Merge/Rebase</div>
+        <div class="timeline-item active">Avançado</div>
+        <div class="timeline-item">GitHub</div>
+        <div class="timeline-item">CI/CD</div>
+    </div>
+
+    <h1 id="git-tags">Git Tags: Marcando Versões e Pontos Importantes</h1>
+
+    <p><strong>Objetivo:</strong> Aprender a usar tags no Git para marcar versões específicas, releases e pontos significativos no histórico do repositório.</p>
+
+    <h2>O que são Tags no Git?</h2>
+
+    <p>Tags são referências que apontam para pontos específicos no histórico do Git. Diferente de branches, as tags não mudam após criadas, servindo como âncoras para versões específicas do seu código.</p>
+
+    <p>As tags são comumente usadas para marcar versões oficiais de lançamento (v1.0, v2.1.3), releases importantes, ou marcos significativos no desenvolvimento.</p>
+
+    <h2>Tipos de Tags</h2>
+
+    <h3>Tags Leves</h3>
+    <p>São simples ponteiros para um commit específico, contendo apenas o hash do commit.</p>
+
+    <h3>Tags Anotadas</h3>
+    <p>São objetos completos no banco de dados do Git. Elas contêm informações como:</p>
+    <ul>
+        <li>Nome do autor da tag</li>
+        <li>E-mail</li>
+        <li>Data</li>
+        <li>Mensagem da tag (anotação)</li>
+        <li>Podem ser assinadas com GPG</li>
+    </ul>
+
+    <p><strong>Recomendação:</strong> Use tags anotadas para releases e versões oficiais, e tags leves para marcações temporárias ou pessoais.</p>
+
+    <h2>Criando Tags</h2>
+
+    <h3>Tags Leves</h3>
+    <pre><code><span class="git-comment"># Criar uma tag leve no commit atual</span>
+<span class="git-command">git</span> <span class="git-command">tag</span> <span class="git-argument">v1.0-leve</span>
+</code></pre>
+
+    <h3>Tags Anotadas (Recomendado para releases)</h3>
+    <pre><code><span class="git-comment"># Criar uma tag anotada</span>
+<span class="git-command">git</span> <span class="git-command">tag</span> <span class="git-option">-a</span> <span class="git-argument">v1.0</span> <span class="git-option">-m</span> <span class="git-argument">"Versão 1.0 - Primeiro lançamento estável"</span>
+</code></pre>
+
+    <h3>Criar tag em um commit específico</h3>
+    <pre><code><span class="git-comment"># Primeiro, encontre o hash do commit desejado</span>
+<span class="git-command">git</span> <span class="git-command">log</span> <span class="git-option">--oneline</span>
+
+<span class="git-comment"># Depois, crie a tag nesse commit específico</span>
+<span class="git-command">git</span> <span class="git-command">tag</span> <span class="git-option">-a</span> <span class="git-argument">v0.9-beta</span> <span class="git-argument">9fceb02</span> <span class="git-option">-m</span> <span class="git-argument">"Versão Beta"</span>
+</code></pre>
+
+    <h2>Listando Tags</h2>
+
+    <pre><code><span class="git-comment"># Listar todas as tags</span>
+<span class="git-command">git</span> <span class="git-command">tag</span>
+
+<span class="git-comment"># Listar tags com filtro por padrão</span>
+<span class="git-command">git</span> <span class="git-command">tag</span> <span class="git-option">-l</span> <span class="git-argument">"v1.*"</span>
+
+<span class="git-comment"># Ver informações detalhadas de uma tag</span>
+<span class="git-command">git</span> <span class="git-command">show</span> <span class="git-argument">v1.0</span>
+</code></pre>
+
+    <h2>Compartilhando Tags</h2>
+
+    <p>Por padrão, o comando <code>git push</code> não envia tags para o repositório remoto. É preciso explicitamente enviar as tags:</p>
+
+    <pre><code><span class="git-comment"># Enviar uma tag específica</span>
+<span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-argument">v1.0</span>
+
+<span class="git-comment"># Enviar todas as tags</span>
+<span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-option">--tags</span>
+</code></pre>
+
+    <h2>Deletando Tags</h2>
+
+    <pre><code><span class="git-comment"># Remover tag localmente</span>
+<span class="git-command">git</span> <span class="git-command">tag</span> <span class="git-option">-d</span> <span class="git-argument">v1.0</span>
+
+<span class="git-comment"># Remover tag do repositório remoto</span>
+<span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-option">--delete</span> <span class="git-argument">v1.0</span>
+<span class="git-comment"># ou</span>
+<span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-argument">:refs/tags/v1.0</span>
+</code></pre>
+
+    <h2>Fazendo Checkout de Tags</h2>
+
+    <p>Você pode fazer checkout de uma tag, mas isso colocará seu repositório em estado "detached HEAD" (cabeça destacada), pois tags são imutáveis.</p>
+
+    <pre><code><span class="git-comment"># Examinar o código no ponto da tag</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">v1.0</span>
+</code></pre>
+
+    <p>Se quiser fazer alterações baseadas nessa tag, crie uma nova branch a partir dela:</p>
+
+    <pre><code><span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-option">-b</span> <span class="git-argument">hotfix-1.0</span> <span class="git-argument">v1.0</span>
+</code></pre>
+
+    <h2>Convenções de Nomenclatura para Tags</h2>
+
+    <h3>Versionamento Semântico (Recomendado)</h3>
+    
+    <p>O padrão de <a href="https://semver.org/lang/pt-BR/" target="_blank">Versionamento Semântico</a> segue o formato <code>MAJOR.MINOR.PATCH</code>:</p>
+    
+    <ul>
+        <li><strong>MAJOR</strong>: versão com mudanças incompatíveis com versões anteriores</li>
+        <li><strong>MINOR</strong>: adições de funcionalidades compatíveis com versões anteriores</li>
+        <li><strong>PATCH</strong>: correções de bugs compatíveis com versões anteriores</li>
+    </ul>
+    
+    <p>Exemplos: <code>v1.0.0</code>, <code>v2.3.1</code></p>
+    
+    <p>Para versões pré-lançamento: <code>v1.0.0-alpha</code>, <code>v1.0.0-beta.1</code>, <code>v1.0.0-rc.2</code></p>
+
+    <h2>Tags no GitHub/GitLab</h2>
+
+    <p>Nos serviços de hospedagem de Git como GitHub e GitLab, as tags são frequentemente usadas para:</p>
+    
+    <ul>
+        <li>Criar releases oficiais</li>
+        <li>Gerar automaticamente notas de lançamento</li>
+        <li>Disponibilizar o código-fonte em pontos específicos para download</li>
+        <li>Integrar com CI/CD para automação de deploy baseada em tags</li>
+    </ul>
+
+    <p>A interface web desses serviços permite visualizar, criar e gerenciar tags facilmente.</p>
+
+    <h2>Exercícios Práticos</h2>
+
+    <div class="exercise-item">
+        <h3>Exercício: Gerenciamento de Tags</h3>
+        <div class="exercise-content">
+            <p><strong>Objetivo:</strong> Praticar a criação e gerenciamento de tags para versões</p>
+            <ol>
+                <li>Crie uma tag anotada chamada <code>v1.0.0</code> no seu commit mais recente</li>
+                <li>Crie outra tag <code>v0.9.0</code> em um commit anterior</li>
+                <li>Liste todas as suas tags</li>
+                <li>Visualize detalhes da tag <code>v1.0.0</code></li>
+                <li>Compartilhe suas tags com o repositório remoto</li>
+            </ol>
+            <button class="check-exercise" data-exercise="tags-1">Verificar Solução</button>
+        </div>
+    </div>
+
+    <h2>Referências</h2>
+    
+    <ul>
+        <li><a href="https://git-scm.com/book/pt-br/v2/Fundamentos-de-Git-Criando-Tags" target="_blank">Documentação Oficial do Git: Criando Tags</a></li>
+        <li><a href="https://semver.org/lang/pt-BR/" target="_blank">Versionamento Semântico</a></li>
+        <li><a href="https://docs.github.com/pt/repositories/releasing-projects-on-github/about-releases" target="_blank">GitHub Docs: Sobre releases</a></li>
+    </ul>
+
+    <p><a href="index.html">← Voltar para página principal</a></p>
+
+    <div id="voltar-topo">↑</div>
+
+    <script src="exercises.js" defer></script>
+</body>
+</html>

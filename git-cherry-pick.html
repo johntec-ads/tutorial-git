@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tutorial sobre Git Cherry-pick - como aplicar commits específicos de uma branch para outra">
+    <meta name="keywords" content="git, cherry-pick, tutorial, commit, branch">
+    <title>Git Cherry-pick - Tutorial Git</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="timeline.css">
+    <script src="script.js" defer></script>
+    <script src="search.js" defer></script>
+    <script src="pwa.js" defer></script>
+</head>
+<body>
+    <nav role="navigation" aria-label="Menu principal" class="nav-container">
+        <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menu">
+            <span class="hamburger"></span>
+        </button>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="index.html#pre-requisitos">Pré-requisitos</a>
+            <a href="index.html#git-commits">Commits</a>
+            <a href="index.html#criando-branch">Nova Branch</a>
+            <a href="index.html#erros-git">Erros</a>
+            <a href="index.html#merge-branch">Merge</a>
+            <a href="git-rebase.html">Rebase</a>
+            <a href="#git-cherry-pick">Cherry-pick</a>
+            <a href="git-tags.html">Tags</a>
+            <a href="git-submodules.html">Submodules</a>
+            <a href="git-hooks.html">Hooks</a>
+            <a href="git-stash.html">Git Stash</a>
+            <a href="git-flow.html">Git Flow</a>
+            <a href="github-actions.html">Actions</a>
+            <a href="index.html#recursos">Recursos</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌓</button>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Pesquisar no tutorial..." aria-label="Pesquisar">
+        <div id="search-results" class="search-results"></div>
+    </div>
+
+    <div class="progress-timeline">
+        <div class="timeline-item">Introdução</div>
+        <div class="timeline-item">Básico</div>
+        <div class="timeline-item">Branches</div>
+        <div class="timeline-item active">Merge/Rebase</div>
+        <div class="timeline-item">Avançado</div>
+        <div class="timeline-item">GitHub</div>
+        <div class="timeline-item">CI/CD</div>
+    </div>
+
+    <h1 id="git-cherry-pick">Git Cherry-pick: Selecionando Commits Específicos</h1>
+
+    <p><strong>Objetivo:</strong> Aprender a usar o Git Cherry-pick para selecionar commits específicos de uma branch e aplicá-los em outra, entendendo quando essa abordagem é útil e suas limitações.</p>
+
+    <h2>O que é Git Cherry-pick?</h2>
+
+    <p>O comando <code><span class="git-command">git</span> <span class="git-command">cherry-pick</span></code> permite escolher um commit específico de uma branch e aplicá-lo em outra. É como "colher" apenas os commits desejados, sem precisar mesclar toda a branch.</p>
+
+    <div class="warning">
+        <p>⚠️ <strong>ATENÇÃO:</strong> Cherry-pick cria cópias dos commits originais, com novos hashes. Isso pode complicar a história do projeto se usado excessivamente.</p>
+    </div>
+
+    <h2>Quando usar Cherry-pick</h2>
+
+    <ul>
+        <li>Para aplicar uma correção de bug específica de uma branch para outra</li>
+        <li>Para selecionar recursos específicos de uma branch em desenvolvimento</li>
+        <li>Para recuperar commits perdidos (após um reset acidental, por exemplo)</li>
+        <li>Para backport de recursos para versões de manutenção</li>
+    </ul>
+
+    <h2>Cherry-pick Básico</h2>
+
+    <pre><code><span class="git-comment"># Primeiro, identifique o hash do commit desejado</span>
+<span class="git-command">git</span> <span class="git-command">log</span> <span class="git-option">--oneline</span> <span class="git-argument">branch-origem</span>
+
+<span class="git-comment"># Mude para a branch de destino</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">branch-destino</span>
+
+<span class="git-comment"># Aplique o commit específico</span>
+<span class="git-command">git</span> <span class="git-command">cherry-pick</span> <span class="git-argument">abc1234</span>
+
+<span class="git-comment"># Para vários commits não consecutivos</span>
+<span class="git-command">git</span> <span class="git-command">cherry-pick</span> <span class="git-argument">abc1234 def5678 ghi9012</span></code></pre>
+
+    <h2>Opções do Cherry-pick</h2>
+
+    <h3>Cherry-pick sem Commit Automático</h3>
+    
+    <p>Para aplicar as mudanças do commit sem criar automaticamente um novo commit:</p>
+    
+    <pre><code><span class="git-command">git</span> <span class="git-command">cherry-pick</span> <span class="git-option">--no-commit</span> <span class="git-argument">abc1234</span>
+<span class="git-comment"># ou</span>
+<span class="git-command">git</span> <span class="git-command">cherry-pick</span> <span class="git-option">-n</span> <span class="git-argument">abc1234</span></code></pre>
+
+    <p>Isso coloca as alterações no seu staging area, permitindo que você faça modificações antes de commitar.</p>
+
+    <h3>Cherry-pick de Intervalos de Commits</h3>
+    
+    <pre><code><span class="git-comment"># Para aplicar uma sequência de commits (do mais antigo ao mais recente)</span>
+<span class="git-command">git</span> <span class="git-command">cherry-pick</span> <span class="git-argument">abc1234^..def5678</span></code></pre>
+
+    <p>Isso aplicará todos os commits desde <code>abc1234</code> (inclusive) até <code>def5678</code>.</p>
+
+    <h3>Lidando com Conflitos</h3>
+    
+    <pre><code><span class="git-comment"># Se ocorrer um conflito durante cherry-pick</span>
+<span class="git-comment"># 1. Resolva os conflitos nos arquivos (marcados com <<<<<<< e >>>>>>>)</span>
+<span class="git-comment"># 2. Adicione os arquivos resolvidos</span>
+<span class="git-command">git</span> <span class="git-command">add</span> <span class="git-argument">arquivo-com-conflito</span>
+
+<span class="git-comment"># 3. Continue o cherry-pick</span>
+<span class="git-command">git</span> <span class="git-command">cherry-pick</span> <span class="git-option">--continue</span>
+
+<span class="git-comment"># Ou para abortar o cherry-pick</span>
+<span class="git-command">git</span> <span class="git-command">cherry-pick</span> <span class="git-option">--abort</span></code></pre>
+
+    <h2>Exemplos Práticos</h2>
+
+    <h3>Backporting de correções de bugs</h3>
+    
+    <p>Cenário: Você corrigiu um bug na branch <code>develop</code> e precisa aplicar essa correção também na branch <code>release-1.0</code> que está em produção.</p>
+    
+    <pre><code><span class="git-comment"># 1. Identifique o hash do commit de correção</span>
+<span class="git-command">git</span> <span class="git-command">log</span> <span class="git-option">--grep</span><span class="git-argument">="fix: corrige bug"</span> <span class="git-option">--oneline</span> <span class="git-argument">develop</span>
+<span class="git-comment"># Isso retorna algo como: abc1234 fix: corrige bug de validação</span>
+
+<span class="git-comment"># 2. Mude para a branch de lançamento</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">release-1.0</span>
+
+<span class="git-comment"># 3. Aplique o commit de correção</span>
+<span class="git-command">git</span> <span class="git-command">cherry-pick</span> <span class="git-argument">abc1234</span>
+
+<span class="git-comment"># 4. Envie as alterações para o repositório remoto</span>
+<span class="git-command">git</span> <span class="git-command">push</span> <span class="git-argument">origin</span> <span class="git-argument">release-1.0</span></code></pre>
+
+    <h3>Selecionando recursos específicos</h3>
+    
+    <p>Cenário: Uma branch de feature tem vários commits, mas você só quer aplicar algumas partes específicas na branch principal.</p>
+    
+    <pre><code><span class="git-comment"># 1. Veja os commits na branch de recursos</span>
+<span class="git-command">git</span> <span class="git-command">log</span> <span class="git-option">--oneline</span> <span class="git-argument">feature/novo-recurso</span>
+<span class="git-comment"># abc1234 feat: adiciona validação de formulário</span>
+<span class="git-comment"># def5678 feat: implementa upload de arquivos</span>
+<span class="git-comment"># ghi9012 feat: adiciona sistema de notificações</span>
+
+<span class="git-comment"># 2. Volte para a branch principal</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">main</span>
+
+<span class="git-comment"># 3. Cherry-pick apenas o commit de validação e notificações</span>
+<span class="git-command">git</span> <span class="git-command">cherry-pick</span> <span class="git-argument">abc1234 ghi9012</span></code></pre>
+
+    <h2>Melhores Práticas</h2>
+
+    <ol>
+        <li><strong>Use com moderação:</strong> Cherry-pick pode tornar o histórico confuso se usado em excesso</li>
+        <li><strong>Documente os cherry-picks:</strong> Mencione na mensagem de commit que é um cherry-pick e de onde veio</li>
+        <li><strong>Prefira merge/rebase:</strong> Para transferir muitos commits, merge ou rebase geralmente são melhores opções</li>
+        <li><strong>Commits atômicos:</strong> Cherry-pick funciona melhor com commits bem definidos e autocontidos</li>
+    </ol>
+
+    <h2>Exercícios Práticos</h2>
+
+    <div class="exercise-item">
+        <h3>Exercício: Cherry-pick seletivo</h3>
+        <div class="exercise-content">
+            <p><strong>Objetivo:</strong> Praticar a seleção de commits específicos entre branches</p>
+            <ol>
+                <li>Crie uma branch chamada <code>feature/recursos-diversos</code></li>
+                <li>Adicione 3 commits distintos (cada um modificando arquivos diferentes)</li>
+                <li>Volte para a branch principal</li>
+                <li>Use cherry-pick para aplicar apenas um dos commits</li>
+            </ol>
+            <button class="check-exercise" data-exercise="cherry-1">Verificar Solução</button>
+        </div>
+    </div>
+
+    <h2>Referências</h2>
+    
+    <ul>
+        <li><a href="https://git-scm.com/docs/git-cherry-pick" target="_blank">Documentação Oficial do Git: Cherry-pick</a></li>
+        <li><a href="https://www.atlassian.com/git/tutorials/cherry-pick" target="_blank">Atlassian Git Tutorial: Cherry-pick</a></li>
+    </ul>
+
+    <p><a href="index.html">← Voltar para página principal</a></p>
+
+    <div id="voltar-topo">↑</div>
+
+    <script src="exercises.js" defer></script>
+</body>
+</html>

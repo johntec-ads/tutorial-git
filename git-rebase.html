@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tutorial sobre Git Rebase e como usar essa funcionalidade avançada">
+    <title>Git Rebase - Tutorial Git</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="timeline.css">
+    <script src="script.js" defer></script>
+    <script src="search.js" defer></script>
+    <script src="pwa.js" defer></script>
+</head>
+<body>
+    <nav role="navigation" aria-label="Menu principal" class="nav-container">
+        <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menu">
+            <span class="hamburger"></span>
+        </button>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="index.html#pre-requisitos">Pré-requisitos</a>
+            <a href="index.html#git-commits">Commits</a>
+            <a href="index.html#criando-branch">Nova Branch</a>
+            <a href="index.html#erros-git">Erros</a>
+            <a href="index.html#merge-branch">Merge</a>
+            <a href="#git-rebase">Rebase</a>
+            <a href="index.html#git-cherry-pick">Cherry-pick</a>
+            <a href="index.html#git-tags">Tags</a>
+            <a href="index.html#git-submodules">Submodules</a>
+            <a href="index.html#git-hooks">Hooks</a>
+            <a href="index.html#git-stash">Git Stash</a>
+            <a href="index.html#git-flow">Git Flow</a>
+            <a href="index.html#github-actions">Actions</a>
+            <a href="index.html#recursos">Recursos</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌓</button>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Pesquisar no tutorial..." aria-label="Pesquisar">
+        <div id="search-results" class="search-results"></div>
+    </div>
+
+    <div class="progress-timeline">
+        <div class="timeline-item">Introdução</div>
+        <div class="timeline-item">Básico</div>
+        <div class="timeline-item">Branches</div>
+        <div class="timeline-item active">Merge/Rebase</div>
+        <div class="timeline-item">Avançado</div>
+        <div class="timeline-item">GitHub</div>
+        <div class="timeline-item">CI/CD</div>
+    </div>
+
+    <h1 id="git-rebase">Git Rebase: Reescrevendo o Histórico</h1>
+
+    <p><strong>Objetivo:</strong> Aprender a usar o Git Rebase para manter um histórico linear e limpo, entendendo quando é apropriado usá-lo e os cuidados necessários.</p>
+
+    <h2>O que é Git Rebase?</h2>
+
+    <p>O <code><span class="git-command">git</span> <span class="git-command">rebase</span></code> é uma operação que "reaplica" commits de uma branch sobre outra. Em vez de criar um commit de merge (como faz o <code>git merge</code>), o rebase reorganiza o histórico para que pareça que você sempre trabalhou na branch de destino.</p>
+
+    <div class="warning">
+        <p>⚠️ <strong>CUIDADO:</strong> Rebase reescreve o histórico. <strong>Nunca</strong> faça rebase em commits que já foram enviados para repositórios públicos ou branches compartilhadas com outras pessoas.</p>
+    </div>
+
+    <h2>Quando usar Rebase vs. Merge</h2>
+
+    <table>
+        <tr>
+            <th>Use Rebase quando:</th>
+            <th>Use Merge quando:</th>
+        </tr>
+        <tr>
+            <td>Quer manter um histórico linear e limpo</td>
+            <td>Quer preservar todo o histórico exatamente como aconteceu</td>
+        </tr>
+        <tr>
+            <td>Está trabalhando em uma branch local não compartilhada</td>
+            <td>Está mesclando branches públicas ou compartilhadas</td>
+        </tr>
+        <tr>
+            <td>Quer incorporar mudanças da branch principal à sua branch de feature</td>
+            <td>Quer finalizar uma feature branch na branch principal</td>
+        </tr>
+    </table>
+
+    <h2>Rebase Básico</h2>
+
+    <pre><code><span class="git-comment"># Cenário: Você está trabalhando na branch feature/login e</span>
+<span class="git-comment"># deseja incorporar as atualizações recentes da branch main</span>
+
+<span class="git-comment"># Primeiro, certifique-se de estar na branch que deseja rebasear</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">feature/login</span>
+
+<span class="git-comment"># Execute o rebase</span>
+<span class="git-command">git</span> <span class="git-command">rebase</span> <span class="git-argument">main</span>
+
+<span class="git-comment"># Se houver conflitos, o Git pausará o rebase para você resolvê-los</span>
+<span class="git-comment"># Depois de resolver cada conflito:</span>
+<span class="git-command">git</span> <span class="git-command">add</span> <span class="git-argument">arquivo-resolvido</span>
+<span class="git-command">git</span> <span class="git-command">rebase</span> <span class="git-option">--continue</span>
+
+<span class="git-comment"># Para cancelar um rebase em andamento</span>
+<span class="git-command">git</span> <span class="git-command">rebase</span> <span class="git-option">--abort</span></code></pre>
+
+    <h2>Rebase Interativo</h2>
+
+    <p>O rebase interativo é uma ferramenta poderosa que permite reorganizar, combinar, renomear ou até remover commits antes de aplicá-los.</p>
+
+    <pre><code><span class="git-comment"># Rebase interativo dos últimos 3 commits</span>
+<span class="git-command">git</span> <span class="git-command">rebase</span> <span class="git-option">-i</span> <span class="git-argument">HEAD~3</span></code></pre>
+
+    <p>Isso abrirá um editor de texto com opções para cada commit:</p>
+
+    <ul>
+        <li><code>pick</code> - manter o commit como está</li>
+        <li><code>reword</code> - manter o commit, mas alterar a mensagem</li>
+        <li><code>edit</code> - pausar para alterar o commit (conteúdo e/ou mensagem)</li>
+        <li><code>squash</code> - combinar com o commit anterior (mantendo as mensagens)</li>
+        <li><code>fixup</code> - combinar com o commit anterior (descartando a mensagem)</li>
+        <li><code>drop</code> - remover o commit</li>
+    </ul>
+
+    <h3>Exemplo de Rebase Interativo</h3>
+
+    <pre><code><span class="git-comment"># Antes do rebase, sua branch pode ter commits como:</span>
+<span class="git-argument">a123456</span> fix: corrige erro de digitação
+<span class="git-argument">b789012</span> fix: ajusta estilo do botão
+<span class="git-argument">c345678</span> feat: implementa login
+
+<span class="git-comment"># Após executar git rebase -i HEAD~3, você pode mudar para:</span>
+pick <span class="git-argument">c345678</span> feat: implementa login
+squash <span class="git-argument">b789012</span> fix: ajusta estilo do botão
+squash <span class="git-argument">a123456</span> fix: corrige erro de digitação
+
+<span class="git-comment"># O resultado será um único commit combinado</span></code></pre>
+
+    <h2>Estratégias de Trabalho com Rebase</h2>
+
+    <h3>1. Pull com Rebase</h3>
+    
+    <p>Uma boa prática para manter seu histórico local limpo quando puxa atualizações do remoto:</p>
+    
+    <pre><code><span class="git-comment"># Em vez de git pull padrão</span>
+<span class="git-command">git</span> <span class="git-command">pull</span> <span class="git-option">--rebase</span> <span class="git-argument">origin</span> <span class="git-argument">main</span>
+
+<span class="git-comment"># Configurar como padrão para uma branch</span>
+<span class="git-command">git</span> <span class="git-command">config</span> <span class="git-command">branch.main.rebase</span> <span class="git-argument">true</span></code></pre>
+
+    <h3>2. Rebase antes de Pull Request</h3>
+    
+    <p>Mantenha sua feature branch sempre atualizada com a principal:</p>
+    
+    <pre><code><span class="git-comment"># Mantenha sua branch main atualizada</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">main</span>
+<span class="git-command">git</span> <span class="git-command">pull</span>
+
+<span class="git-comment"># Volte para sua feature branch e rebase</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">feature/login</span>
+<span class="git-command">git</span> <span class="git-command">rebase</span> <span class="git-argument">main</span>
+
+<span class="git-comment"># Force-push se necessário (com cuidado!)</span>
+<span class="git-command">git</span> <span class="git-command">push</span> <span class="git-option">--force-with-lease</span></code></pre>
+
+    <h2>Resolução de Conflitos durante Rebase</h2>
+
+    <ol>
+        <li>Quando um conflito ocorre, o Git pausa o rebase.</li>
+        <li>Abra os arquivos conflitantes (marcados com <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> e <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>) e resolva os conflitos.</li>
+        <li>Adicione as alterações (<code>git add</code>).</li>
+        <li>Continue o rebase (<code>git rebase --continue</code>).</li>
+        <li>Repita para cada commit com conflito.</li>
+    </ol>
+
+    <h2>Exercícios Práticos</h2>
+
+    <div class="exercise-item">
+        <h3>Exercício: Limpar Histórico com Rebase</h3>
+        <div class="exercise-content">
+            <p><strong>Objetivo:</strong> Usar rebase interativo para limpar uma série de commits</p>
+            <ol>
+                <li>Crie uma branch <code>feature/rebase-exercicio</code></li>
+                <li>Adicione 3-4 commits simples (pode ser apenas alterando um arquivo)</li>
+                <li>Use rebase interativo para combinar (squash) os commits em um único commit com uma mensagem clara</li>
+            </ol>
+            <button class="check-exercise" data-exercise="rebase-1">Verificar Solução</button>
+        </div>
+    </div>
+
+    <h2>Referências</h2>
+    
+    <ul>
+        <li><a href="https://git-scm.com/book/pt-br/v2/Ramificação-no-Git-Rebase" target="_blank">Documentação Oficial do Git: Rebase</a></li>
+        <li><a href="https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase" target="_blank">Atlassian Git Tutorial: Rebase</a></li>
+    </ul>
+
+    <p><a href="index.html">← Voltar para página principal</a></p>
+
+    <div id="voltar-topo">↑</div>
+
+    <script src="exercises.js" defer></script>
+</body>
+</html>

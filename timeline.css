@@ -1,3 +1,14 @@
+/**
+ * Timeline de Progresso - Git Tutorial
+ * 
+ * Este arquivo contém os estilos para o componente de timeline de progresso
+ * usado para mostrar etapas sequenciais no tutorial de Git, além dos 
+ * estilos para exibição de atalhos de teclado.
+ * 
+ * O arquivo suporta tanto tema claro quanto escuro.
+ */
+
+/* Contêiner principal da timeline */
 .progress-timeline {
     display: flex;
     justify-content: space-between;
@@ -7,6 +18,7 @@
     padding: 0 20px;
 }
 
+/* Linha horizontal conectando os itens da timeline */
 .progress-timeline::before {
     content: '';
     position: absolute;
@@ -18,6 +30,7 @@
     z-index: 1;
 }
 
+/* Itens individuais da timeline (cada etapa) */
 .timeline-item {
     position: relative;
     background: var(--bg-color);
@@ -26,14 +39,16 @@
     border: 2px solid var(--primary-color);
     z-index: 2;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Transição suave ao mudar de estado */
 }
 
+/* Estado ativo para o item atual da timeline */
 .timeline-item.active {
     background: var(--primary-color);
     color: white;
 }
 
+/* Grade responsiva para exibição de atalhos de teclado */
 .shortcuts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -41,6 +56,7 @@
     margin: 2rem 0;
 }
 
+/* Cartão individual para cada atalho */
 .shortcut-card {
     background: var(--code-bg);
     padding: 1rem;
@@ -51,6 +67,7 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Estilização para teclas de atalho */
 kbd {
     background: #eee;
     border-radius: 4px;
@@ -59,6 +76,11 @@ kbd {
     font-family: monospace;
 }
 
+/**
+ * Suporte para tema escuro
+ * Sobrescreve as cores e estilos quando o tema escuro está ativado
+ * usando o atributo data-theme="dark" no elemento pai
+ */
 [data-theme="dark"] .timeline-item {
     background: var(--dark-bg);
     border-color: var(--dark-primary);

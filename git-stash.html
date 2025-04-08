@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tutorial sobre Git Stash - como salvar temporariamente alterações não commitadas">
+    <meta name="keywords" content="git, stash, tutorial, alterações temporárias, workflow">
+    <title>Git Stash - Tutorial Git</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="timeline.css">
+    <script src="script.js" defer></script>
+    <script src="search.js" defer></script>
+    <script src="pwa.js" defer></script>
+</head>
+<body>
+    <nav role="navigation" aria-label="Menu principal" class="nav-container">
+        <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menu">
+            <span class="hamburger"></span>
+        </button>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="index.html#pre-requisitos">Pré-requisitos</a>
+            <a href="index.html#git-commits">Commits</a>
+            <a href="index.html#criando-branch">Nova Branch</a>
+            <a href="index.html#erros-git">Erros</a>
+            <a href="index.html#merge-branch">Merge</a>
+            <a href="git-rebase.html">Rebase</a>
+            <a href="git-cherry-pick.html">Cherry-pick</a>
+            <a href="git-tags.html">Tags</a>
+            <a href="git-submodules.html">Submodules</a>
+            <a href="git-hooks.html">Hooks</a>
+            <a href="#git-stash">Git Stash</a>
+            <a href="git-flow.html">Git Flow</a>
+            <a href="github-actions.html">Actions</a>
+            <a href="index.html#recursos">Recursos</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌓</button>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Pesquisar no tutorial..." aria-label="Pesquisar">
+        <div id="search-results" class="search-results"></div>
+    </div>
+
+    <div class="progress-timeline">
+        <div class="timeline-item">Introdução</div>
+        <div class="timeline-item">Básico</div>
+        <div class="timeline-item">Branches</div>
+        <div class="timeline-item">Merge/Rebase</div>
+        <div class="timeline-item active">Avançado</div>
+        <div class="timeline-item">GitHub</div>
+        <div class="timeline-item">CI/CD</div>
+    </div>
+
+    <h1 id="git-stash">Git Stash: Salvando Alterações Temporárias</h1>
+
+    <p><strong>Objetivo:</strong> Aprender a usar o Git Stash para salvar temporariamente alterações não commitadas, permitindo mudar de branch ou realizar outras operações sem perder trabalho em andamento.</p>
+
+    <h2>O que é Git Stash?</h2>
+
+    <p>O comando <code><span class="git-command">git</span> <span class="git-command">stash</span></code> salva temporariamente suas modificações rastreadas e não commitadas, assim como arquivos rastreados que estejam em staging, permitindo que você limpe seu diretório de trabalho e possa mudar de contexto sem comprometer as alterações em andamento.</p>
+
+    <p>É como um "bolso mágico" onde você guarda seu trabalho em andamento para recuperá-lo mais tarde.</p>
+
+    <h2>Quando usar o Git Stash</h2>
+
+    <ul>
+        <li>Quando precisa mudar rapidamente de branch, mas tem alterações não commitadas</li>
+        <li>Quando recebe uma solicitação urgente e precisa pausar o que estava fazendo</li>
+        <li>Quando quer testar se o código funciona com alterações específicas</li>
+        <li>Quando quer aplicar as mesmas alterações em outra branch</li>
+        <li>Quando quer salvar alterações experimentais sem criar um commit</li>
+    </ul>
+
+    <h2>Comandos Básicos do Stash</h2>
+
+    <h3>Salvando alterações no stash</h3>
+    
+    <pre><code><span class="git-comment"># Stash básico (salva alterações rastreadas)</span>
+<span class="git-command">git</span> <span class="git-command">stash</span>
+
+<span class="git-comment"># Stash com mensagem personalizada</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">save</span> <span class="git-argument">"Implementação parcial do login"</span>
+
+<span class="git-comment"># Incluir arquivos não rastreados (untracked)</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-option">--include-untracked</span>
+<span class="git-comment"># ou</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-option">-u</span>
+
+<span class="git-comment"># Incluir TODOS os arquivos (até os ignorados)</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-option">--all</span>
+</code></pre>
+
+    <h3>Listando stashes salvos</h3>
+    
+    <pre><code><span class="git-comment"># Listar todos os stashes</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">list</span>
+
+<span class="git-comment"># Saída exemplo:</span>
+<span class="git-comment"># stash@{0}: On feature/login: Implementação parcial do login</span>
+<span class="git-comment"># stash@{1}: On develop: Correções de estilo</span>
+</code></pre>
+
+    <h3>Inspecionando o conteúdo de um stash</h3>
+    
+    <pre><code><span class="git-comment"># Ver o resumo do stash mais recente</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">show</span>
+
+<span class="git-comment"># Ver detalhes das alterações no stash mais recente</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">show</span> <span class="git-option">-p</span>
+
+<span class="git-comment"># Ver detalhes de um stash específico</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">show</span> <span class="git-option">-p</span> <span class="git-argument">stash@{1}</span>
+</code></pre>
+
+    <h3>Recuperando alterações do stash</h3>
+    
+    <pre><code><span class="git-comment"># Aplicar o stash mais recente (mantém ele na lista)</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">apply</span>
+
+<span class="git-comment"># Aplicar o stash mais recente e removê-lo da lista</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">pop</span>
+
+<span class="git-comment"># Aplicar um stash específico</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">apply</span> <span class="git-argument">stash@{2}</span>
+
+<span class="git-comment"># Aplicar um stash específico e removê-lo</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">pop</span> <span class="git-argument">stash@{2}</span>
+</code></pre>
+
+    <h3>Removendo stashes</h3>
+    
+    <pre><code><span class="git-comment"># Remover o stash mais recente</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">drop</span>
+
+<span class="git-comment"># Remover um stash específico</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">drop</span> <span class="git-argument">stash@{1}</span>
+
+<span class="git-comment"># Remover todos os stashes</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">clear</span>
+</code></pre>
+
+    <h2>Casos de Uso Avançados</h2>
+
+    <h3>Criando uma branch a partir de um stash</h3>
+    
+    <p>Se você perceber que as alterações no stash deveriam estar em uma branch separada:</p>
+    
+    <pre><code><span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">branch</span> <span class="git-argument">nova-feature</span> <span class="git-argument">stash@{0}</span>
+</code></pre>
+    
+    <p>Isso cria uma nova branch a partir do commit onde o stash foi criado, aplica o stash e o remove da lista se tudo der certo.</p>
+
+    <h3>Stash parcial</h3>
+    
+    <p>Para salvar apenas algumas alterações e não todas:</p>
+    
+    <pre><code><span class="git-comment"># Modo interativo para escolher o que stashear</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-option">--patch</span>
+<span class="git-comment"># ou</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-option">-p</span>
+
+<span class="git-comment"># Stashear apenas arquivos específicos</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-option">--</span> <span class="git-argument">arquivo1.js arquivo2.css</span>
+</code></pre>
+
+    <h2>Fluxos de Trabalho com Stash</h2>
+
+    <h3>Cenário 1: Interrupção do trabalho</h3>
+    
+    <pre><code><span class="git-comment"># Você está trabalhando na feature/login</span>
+<span class="git-comment"># Surge uma correção urgente para fazer</span>
+
+<span class="git-comment"># 1. Salve seu trabalho atual</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">save</span> <span class="git-argument">"Trabalho em andamento no login"</span>
+
+<span class="git-comment"># 2. Volte para a branch principal</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">main</span>
+
+<span class="git-comment"># 3. Crie uma branch para o hotfix</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-option">-b</span> <span class="git-argument">hotfix/bug-123</span>
+
+<span class="git-comment"># 4. Faça as correções necessárias e commit</span>
+<span class="git-comment"># ... (trabalhe no hotfix)</span>
+<span class="git-command">git</span> <span class="git-command">commit</span> <span class="git-option">-m</span> <span class="git-argument">"Corrige bug crítico #123"</span>
+
+<span class="git-comment"># 5. Merge do hotfix</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">main</span>
+<span class="git-command">git</span> <span class="git-command">merge</span> <span class="git-argument">hotfix/bug-123</span>
+
+<span class="git-comment"># 6. Volte ao seu trabalho anterior</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">feature/login</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">pop</span>
+</code></pre>
+
+    <h3>Cenário 2: Transferir alterações entre branches</h3>
+    
+    <pre><code><span class="git-comment"># Você fez alterações na branch errada</span>
+
+<span class="git-comment"># 1. Salve as alterações</span>
+<span class="git-command">git</span> <span class="git-command">stash</span>
+
+<span class="git-comment"># 2. Mude para a branch correta</span>
+<span class="git-command">git</span> <span class="git-command">checkout</span> <span class="git-argument">feature/correta</span>
+
+<span class="git-comment"># 3. Aplique as alterações</span>
+<span class="git-command">git</span> <span class="git-command">stash</span> <span class="git-command">pop</span>
+</code></pre>
+
+    <h2>Resolução de Conflitos ao Aplicar Stash</h2>
+    
+    <p>Quando há conflitos ao aplicar um stash:</p>
+    
+    <ol>
+        <li>Git indica os arquivos com conflito</li>
+        <li>Resolva os conflitos manualmente, como faria em um merge</li>
+        <li>Adicione os arquivos resolvidos com <code>git add</code></li>
+        <li>Se usou <code>git stash pop</code> e houve conflitos, o stash não é automaticamente removido</li>
+        <li>Você precisará removê-lo manualmente após resolver os conflitos: <code>git stash drop</code></li>
+    </ol>
+
+    <h2>Exercícios Práticos</h2>
+
+    <div class="exercise-item">
+        <h3>Exercício: Workflow com Stash</h3>
+        <div class="exercise-content">
+            <p><strong>Objetivo:</strong> Praticar o uso do stash em um cenário de trabalho</p>
+            <ol>
+                <li>Na sua branch de feature, faça algumas alterações em um arquivo</li>
+                <li>Use stash para salvar essas alterações com uma mensagem descritiva</li>
+                <li>Mude para a branch main e crie um arquivo novo</li>
+                <li>Volte para a branch de feature</li>
+                <li>Recupere suas alterações do stash</li>
+                <li>Verifique se todas as alterações foram aplicadas corretamente</li>
+            </ol>
+            <button class="check-exercise" data-exercise="stash-1">Verificar Solução</button>
+        </div>
+    </div>
+
+    <h2>Referências</h2>
+    
+    <ul>
+        <li><a href="https://git-scm.com/docs/git-stash" target="_blank">Documentação Oficial do Git: Stash</a></li>
+        <li><a href="https://www.atlassian.com/git/tutorials/saving-changes/git-stash" target="_blank">Atlassian Git Tutorial: Stash</a></li>
+    </ul>
+
+    <p><a href="index.html">← Voltar para página principal</a></p>
+
+    <div id="voltar-topo">↑</div>
+
+    <script src="exercises.js" defer></script>
+</body>
+</html>
