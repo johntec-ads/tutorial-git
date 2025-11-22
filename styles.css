@@ -362,6 +362,22 @@ a[target="_blank"]::after {
     border-radius: 6px;
 }
 
+/* Estilo do botão copiar em blocos de código */
+.copy-btn {
+    background: rgba(44,62,80,0.9);
+    color: white;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s ease, transform 0.08s ease;
+}
+
+.copy-btn:hover { background: rgba(44,62,80,1); transform: translateY(-1px); }
+
+pre { position: relative; }
+
 @media (max-width: 768px) {
     .menu-toggle {
         display: block;

@@ -296,6 +296,58 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
+ * Botões de copiar para blocos de código
+ * Adiciona um botão "Copiar" em cada <pre><code> para facilitar estudos.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const pres = document.querySelectorAll('pre');
+
+    pres.forEach(pre => {
+        // Evita duplicar o botão
+        if (pre.querySelector('.copy-btn')) return;
+
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.type = 'button';
+        btn.textContent = 'Copiar';
+        btn.setAttribute('aria-label', 'Copiar código');
+
+        // Posiciona o botão no canto superior direito do pre
+        pre.style.position = pre.style.position || 'relative';
+        btn.style.position = 'absolute';
+        btn.style.top = '8px';
+        btn.style.right = '8px';
+
+        btn.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            const text = code ? code.innerText : pre.innerText;
+
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    // Fallback
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    textarea.remove();
+                }
+
+                btn.textContent = 'Copiado!';
+                setTimeout(() => btn.textContent = 'Copiar', 2000);
+            } catch (err) {
+                btn.textContent = 'Erro';
+                setTimeout(() => btn.textContent = 'Copiar', 2000);
+            }
+        });
+
+        pre.appendChild(btn);
+    });
+});
+
+/**
  * Simulador de Terminal Git
  * Permite praticar comandos Git em um ambiente simulado
  */
