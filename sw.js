@@ -8,7 +8,8 @@
  * Versão: v1
  */
 
-const CACHE_NAME = 'git-tutorial-v1';
+// Incrementar a versão do cache para forçar atualização em deploys
+const CACHE_NAME = 'git-tutorial-v2';
 const urlsToCache = [
     '/',
     '/tutorial.html',
@@ -40,6 +41,10 @@ self.addEventListener('install', event => {
             })
     );
 });
+// Faz o novo Service Worker ativar imediatamente
+self.addEventListener('install', (event) => {
+    self.skipWaiting();
+});
 
 /**
  * Evento de fetch (interceptação de requisições)
@@ -47,32 +52,42 @@ self.addEventListener('install', event => {
  * recorre à rede se recurso não estiver em cache
  */
 self.addEventListener('fetch', event => {
-    event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                // Retorna do cache se disponível
-                if (response) {
-                    return response;
+    // Estratégia híbrida: Network-first para HTML/CSS/JS críticos,
+    // cache-first para images e outros assets.
+    const url = new URL(event.request.url);
+    const isNavigation = event.request.mode === 'navigate' || event.request.destination === 'document';
+    const isStaticAsset = /\.(?:js|css|html)$/.test(url.pathname);
+    const isImage = /\.(?:png|jpg|jpeg|gif|webp|svg)$/.test(url.pathname);
+
+    if (isNavigation || isStaticAsset) {
+        // Network first: tenta rede, se falhar usa cache
+        event.respondWith(
+            fetch(event.request).then(networkResponse => {
+                // Atualiza o cache com a nova resposta
+                if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
+                    const copy = networkResponse.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
                 }
-                // Caso contrário, busca da rede e atualiza o cache
-                return fetch(event.request).then(networkResponse => {
-                    // Não cacheia respostas de erro ou não-GET
-                    if (!networkResponse || networkResponse.status !== 200 || 
-                        networkResponse.type !== 'basic' || event.request.method !== 'GET') {
-                        return networkResponse;
-                    }
-                    
-                    // Clona a resposta para armazenar no cache
-                    // (pois bodies só podem ser lidos uma vez)
-                    const responseToCache = networkResponse.clone();
-                    
-                    caches.open(CACHE_NAME).then(cache => {
-                        cache.put(event.request, responseToCache);
-                    });
-                    
-                    return networkResponse;
-                });
-            })
+                return networkResponse;
+            }).catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
+    // Cache first for images and other requests
+    event.respondWith(
+        caches.match(event.request).then(response => {
+            return response || fetch(event.request).then(networkResponse => {
+                if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
+                    const copy = networkResponse.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+                }
+                return networkResponse;
+            }).catch(() => {
+                // Se tudo falhar, tenta retornar um fallback (opcional)
+                return response;
+            });
+        })
     );
 });
 
@@ -93,4 +108,8 @@ self.addEventListener('activate', event => {
             );
         })
     );
+});
+// Controla imediatamente os clientes quando o SW é ativado
+self.addEventListener('activate', (event) => {
+    event.waitUntil(self.clients.claim());
 });
