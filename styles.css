@@ -702,6 +702,29 @@ h2, h3, p, pre, .exercise-item {
     font-weight: bold;
 }
 
+/* Melhorias para compatibilidade de ícones emoji em pseudo-elementos
+   Alguns celulares/skins não exibem emojis quando a família de fontes
+   aplicada ao elemento não tem suporte a color emoji. Forçar uma
+   lista de fontes emoji como fallback melhora a renderização.
+*/
+.nav-container > .hamburger,
+h1::before,
+pre::before,
+.warning::before,
+.faq-question::after,
+a[target="_blank"]::after,
+#terminal-simulator::before {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+    display: inline-block;
+    line-height: 1;
+}
+
+/* Ajustes específicos de tamanho para alguns ícones */
+h1::before { font-size: 1.6rem; left: -40px; }
+pre::before { font-size: 1.25rem; top: 10px; right: 10px; }
+.warning::before { font-size: 1.2rem; left: 10px; top: 10px; }
+#terminal-simulator::before { font-size: 1rem; }
+
 #terminal-output {
     min-height: 200px;
     background: linear-gradient(135deg, #001122 0%, #002244 100%);
