@@ -1,23 +1,23 @@
 :root {
-    --primary-color: #4A90E2; /* Azul amigável */
-    --secondary-color: #50C878; /* Verde menta */
-    --accent-color: #FFD700; /* Amarelo dourado */
-    --text-color: #2C3E50; /* Azul escuro para texto */
-    --bg-color: #F8F9FA; /* Branco cremoso */
-    --code-bg: #E8F4FD; /* Azul muito claro */
-    --warning-color: #FF6B6B; /* Vermelho suave */
-    --success-color: #32CD32; /* Verde limão */
-    --fun-color: #FF69B4; /* Rosa */
+    --primary-color: #5a6c7d; /* Cinza azulado equilibrado */
+    --secondary-color: #7d8b99; /* Cinza menta equilibrado */
+    --accent-color: #b8c5d1; /* Amarelo dourado equilibrado */
+    --text-color: #2c3e50; /* Azul escuro para texto */
+    --bg-color: #f5f7fa; /* Branco cremoso equilibrado */
+    --code-bg: #e8ecf0; /* Azul muito claro equilibrado */
+    --warning-color: #d4a574; /* Vermelho suave equilibrado */
+    --success-color: #7fb685; /* Verde limão equilibrado */
+    --fun-color: #c49bd5; /* Rosa equilibrado */
     --mobile-breakpoint: 768px;
 
     /* Modo escuro - manter mais neutro */
-    --dark-bg: #1a1a1a;
-    --dark-text: #ffffff;
-    --dark-code-bg: #2d2d2d;
-    --dark-primary: #4a5b85;
-    --dark-secondary: #5677e5;
-    --dark-accent: #00d4a0;
-    --dark-warning: #ff8f8f;
+    --dark-bg: #2c3e50;
+    --dark-text: #ecf0f1;
+    --dark-code-bg: #34495e;
+    --dark-primary: #5a6c7d;
+    --dark-secondary: #7d8b99;
+    --dark-accent: #b8c5d1;
+    --dark-warning: #d4a574;
 }
 
 body {
@@ -28,20 +28,18 @@ body {
     color: var(--text-color);
     max-width: 1200px;
     margin: 0 auto;
-    background: linear-gradient(135deg, var(--bg-color) 0%, #E8F4FD 100%);
+    background: var(--bg-color);
     min-height: 100vh;
-}
 }
 
 nav {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: var(--primary-color);
     padding: 1rem;
     position: sticky;
     top: 0;
     z-index: 100;
     border-radius: 15px;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
 }
 
 nav a {
@@ -66,10 +64,7 @@ h1 {
     padding-bottom: 15px;
     margin-top: 2rem;
     font-size: 2.5rem;
-    background: linear-gradient(45deg, var(--primary-color), var(--fun-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary-color);
     position: relative;
 }
 
@@ -166,8 +161,6 @@ pre::before {
     transform: translateY(-50%);
     font-size: 1.5rem;
 }
-    transition: background-color 0.3s ease;
-}
 
 .faq-question:hover {
     background: linear-gradient(135deg, #F0F8FF 0%, #E6F3FF 100%);
@@ -176,14 +169,13 @@ pre::before {
 }
 
 .faq-answer {
+    display: none;
     padding: 1.5rem;
     margin-top: 1rem;
     background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
     border-radius: 12px;
     border: 2px solid var(--secondary-color);
     box-shadow: 0 4px 8px rgba(80, 200, 120, 0.2);
-}
-    display: none;
 }
 
 .faq-item.active .faq-answer {
@@ -314,6 +306,35 @@ a[target="_blank"]::after {
     bottom: 0;
 }
 
+/* Regras para exibir menu em telas maiores */
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Transições e foco para acessibilidade */
+.nav-links,
+.nav-links.active {
+    transition: opacity 0.28s ease, transform 0.28s ease, max-height 0.32s ease;
+}
+
+.menu-toggle:focus {
+    outline: 3px solid rgba(184,197,209,0.6);
+    outline-offset: 3px;
+}
+
+.nav-links a:focus {
+    outline: 3px solid rgba(184,197,209,0.9);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
 @media (max-width: 768px) {
     .menu-toggle {
         display: block;
@@ -429,28 +450,6 @@ a[target="_blank"]::after {
 [data-theme="dark"] .git-option { color: #85e89d; }
 [data-theme="dark"] .git-argument { color: #ffab70; }
 [data-theme="dark"] .git-comment { color: #959da5; }
-
-/* Estilo do botão de tema */
-.theme-toggle {
-    background: transparent;
-    border: 2px solid #fff;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-}
-
-.theme-toggle:hover {
-    background: var(--secondary-color);
-    transform: scale(1.05);
-}
-
-[data-theme="dark"] .theme-toggle {
-    border-color: var(--dark-text);
-    color: var(--dark-text);
-}
 
 /* Barra de pesquisa */
 .search-container {

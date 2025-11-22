@@ -87,29 +87,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /**
-     * Sistema de Alternância de Tema (Claro/Escuro)
-     * Mantém a preferência do usuário no localStorage
+     * Sistema de Tema Automático Baseado no Horário
+     * Define tema claro durante o dia (6h-18h) e escuro à noite
      */
-    const themeToggle = document.getElementById('theme-toggle');
-    
-    if (themeToggle) {
-        // Inicializar o tema com preferência salva ou padrão
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌓';
-
-        // Adicionar evento de clique para alternar tema
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌓';
-            
-            console.log('Tema alterado para:', newTheme); // Debug
-        });
+    function setAutomaticTheme() {
+        const now = new Date();
+        const hour = now.getHours();
+        const theme = (hour >= 6 && hour < 18) ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        console.log('Tema automático definido para:', theme, 'às', hour, 'horas');
     }
+
+    // Definir tema inicial
+    setAutomaticTheme();
+
+    // Atualizar tema a cada hora
+    setInterval(setAutomaticTheme, 60 * 60 * 1000); // 1 hora
 
     /**
      * Menu Hambúrguer para Dispositivos Móveis
@@ -121,12 +114,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (menuToggle) {
         menuToggle.addEventListener('click', (e) => {
             e.stopPropagation(); // Impede que o evento se propague
+            const willOpen = !menuToggle.classList.contains('active');
             menuToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
-            
-            // Melhoria para acessibilidade
-            const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', !expanded);
+
+            // Atualiza atributos ARIA para acessibilidade
+            menuToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            navLinks.setAttribute('aria-hidden', willOpen ? 'false' : 'true');
+            // Coloca foco no primeiro link quando abrir
+            if (willOpen) {
+                const firstLink = navLinks.querySelector('a');
+                if (firstLink) firstLink.focus();
+            }
         });
 
         // Fechar menu ao clicar em um link
@@ -135,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 menuToggle.classList.remove('active');
                 navLinks.classList.remove('active');
                 menuToggle.setAttribute('aria-expanded', 'false');
+                navLinks.setAttribute('aria-hidden', 'true');
             });
         });
 
@@ -146,11 +146,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 menuToggle.classList.remove('active');
                 navLinks.classList.remove('active');
                 menuToggle.setAttribute('aria-expanded', 'false');
+                navLinks.setAttribute('aria-hidden', 'true');
             }
         });
         
         // Inicializar o estado do menu
         menuToggle.setAttribute('aria-expanded', 'false');
+        navLinks.setAttribute('aria-hidden', 'true');
+
+        // Fechar menu com tecla Escape para acessibilidade
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.key === 'Esc') {
+                if (menuToggle.classList.contains('active')) {
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    navLinks.setAttribute('aria-hidden', 'true');
+                    menuToggle.focus();
+                }
+            }
+        });
     }
     
     // Ajuste de viewport para dispositivos móveis
