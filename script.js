@@ -279,3 +279,104 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('Timeline não encontrada no DOM');
     }
 });
+
+/**
+ * Simulador de Terminal Git
+ * Permite praticar comandos Git em um ambiente simulado
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const terminalOutput = document.getElementById('terminal-output');
+    const terminalInput = document.getElementById('terminal-input');
+    const runCommand = document.getElementById('run-command');
+
+    if (terminalOutput && terminalInput && runCommand) {
+        // Estado simulado do repositório
+        let currentBranch = 'main';
+        let stagedFiles = [];
+        let commits = ['Initial commit'];
+
+        const simulatedResponses = {
+            'git status': () => `On branch ${currentBranch}\n\nChanges to be committed:\n${stagedFiles.length ? stagedFiles.map(f => `  new file:   ${f}`).join('\n') : '  (working tree clean)'}\n\nUntracked files:\n  (use "git add <file>..." to include in what will be committed)\n\ttest.txt\n`,
+            'git add .': () => { stagedFiles.push('test.txt'); return 'Added test.txt to staging area'; },
+            'git commit -m': (msg) => { commits.push(msg); stagedFiles = []; return `Committed: ${msg}`; },
+            'git log --oneline': () => commits.map((c, i) => `${'a'.repeat(7)}${i} ${c}`).join('\n'),
+            'git branch': () => `* ${currentBranch}`,
+            'git checkout -b': (branch) => { currentBranch = branch; return `Switched to a new branch '${branch}'`; },
+            'clear': () => { terminalOutput.innerHTML = ''; return ''; }
+        };
+
+        const executeCommand = (cmd) => {
+            const parts = cmd.trim().split(' ');
+            const command = parts[0] + (parts[1] ? ' ' + parts[1] : '');
+            const arg = parts.slice(2).join(' ');
+
+            if (simulatedResponses[command]) {
+                return simulatedResponses[command](arg);
+            } else {
+                return `git: '${command}' is not a git command. See 'git --help'.`;
+            }
+        };
+
+        runCommand.addEventListener('click', () => {
+            const cmd = terminalInput.value;
+            if (cmd) {
+                terminalOutput.innerHTML += `<div>$ ${cmd}</div>`;
+                const response = executeCommand(cmd);
+                if (response) {
+                    terminalOutput.innerHTML += `<div>${response}</div>`;
+                }
+                terminalOutput.innerHTML += '<div>&nbsp;</div>';
+                terminalInput.value = '';
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+        });
+
+        terminalInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                runCommand.click();
+            }
+        });
+    }
+});
+
+/**
+ * Integração com GitHub API
+ * Permite buscar informações de repositórios
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const repoSearch = document.getElementById('repo-search');
+    const searchRepo = document.getElementById('search-repo');
+    const repoResults = document.getElementById('repo-results');
+
+    if (repoSearch && searchRepo && repoResults) {
+        searchRepo.addEventListener('click', async () => {
+            const repo = repoSearch.value.trim();
+            if (!repo) return;
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/${repo}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    repoResults.innerHTML = `
+                        <div style="border: 1px solid #ddd; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <h3><a href="${data.html_url}" target="_blank">${data.full_name}</a></h3>
+                            <p>${data.description || 'Sem descrição'}</p>
+                            <p>⭐ ${data.stargazers_count} | 🍴 ${data.forks_count} | 📝 ${data.language}</p>
+                            <p>Último commit: ${new Date(data.updated_at).toLocaleDateString('pt-BR')}</p>
+                        </div>
+                    `;
+                } else {
+                    repoResults.innerHTML = '<p>Repositório não encontrado.</p>';
+                }
+            } catch (error) {
+                repoResults.innerHTML = '<p>Erro ao buscar repositório.</p>';
+            }
+        });
+
+        repoSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchRepo.click();
+            }
+        });
+    }
+});

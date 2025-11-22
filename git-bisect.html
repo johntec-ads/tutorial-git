@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Tutorial sobre Git Bisect para encontrar bugs em commits">
+    <meta name="theme-color" content="#2b3a55">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Git Bisect - Tutorial Git</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="timeline.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script src="script.js" defer></script>
+    <script src="search.js" defer></script>
+    <script src="pwa.js" defer></script>
+</head>
+<body>
+    <nav role="navigation" aria-label="Menu principal" class="nav-container">
+        <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menu">
+            <span class="hamburger"></span>
+        </button>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="index.html#pre-requisitos">Pré-requisitos</a>
+            <a href="index.html#git-commits">Commits</a>
+            <a href="index.html#criando-branch">Nova Branch</a>
+            <a href="index.html#erros-git">Erros</a>
+            <a href="index.html#merge-branch">Merge</a>
+            <a href="git-rebase.html">Rebase</a>
+            <a href="git-cherry-pick.html">Cherry-pick</a>
+            <a href="git-tags.html">Tags</a>
+            <a href="git-stash.html">Git Stash</a>
+            <a href="#git-bisect">Bisect</a>
+            <a href="index.html#recursos">Recursos</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌓</button>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Pesquisar no tutorial..." aria-label="Pesquisar">
+        <div id="search-results" class="search-results"></div>
+    </div>
+
+    <div class="progress-timeline">
+        <div class="timeline-item">Introdução</div>
+        <div class="timeline-item">Básico</div>
+        <div class="timeline-item">Branches</div>
+        <div class="timeline-item">Merge/Rebase</div>
+        <div class="timeline-item active">Avançado</div>
+        <div class="timeline-item">GitHub</div>
+        <div class="timeline-item">CI/CD</div>
+    </div>
+
+    <h1 id="git-bisect">🔍 Git Bisect: Encontrando Bugs em Commits</h1>
+
+    <p>O <code>git bisect</code> é uma ferramenta poderosa para encontrar o commit que introduziu um bug usando busca binária.</p>
+
+    <h2>Como Funciona</h2>
+    <p>O bisect divide o histórico de commits ao meio, permitindo identificar rapidamente o commit problemático.</p>
+
+    <h2>Passos para Usar Git Bisect</h2>
+    <ol>
+        <li><strong>Iniciar o bisect:</strong>
+            <pre><code>git bisect start</code></pre>
+        </li>
+        <li><strong>Marcar o commit bom (sem bug):</strong>
+            <pre><code>git bisect good &lt;commit-hash&gt;</code></pre>
+        </li>
+        <li><strong>Marcar o commit ruim (com bug):</strong>
+            <pre><code>git bisect bad &lt;commit-hash&gt;</code></pre>
+        </li>
+        <li><strong>Git irá checkout para um commit intermediário. Teste e marque:</strong>
+            <pre><code>git bisect good  # ou git bisect bad</code></pre>
+        </li>
+        <li><strong>Repita até encontrar o commit culpado.</strong></li>
+        <li><strong>Finalizar:</strong>
+            <pre><code>git bisect reset</code></pre>
+        </li>
+    </ol>
+
+    <h2>Exemplo Prático</h2>
+    <pre><code>$ git bisect start
+$ git bisect bad HEAD
+$ git bisect good v1.0
+Bisecting: 10 revisions left to test after this (roughly 3 steps)
+[commit-hash] Commit message
+
+# Teste o código aqui
+$ git bisect bad  # ou good
+
+# Continue até encontrar
+$ git bisect reset</code></pre>
+
+    <div class="exercise-item">
+        <h3>Exercício: Encontre um Bug com Bisect</h3>
+        <p>Simule um repositório com um bug introduzido em algum commit e use bisect para encontrá-lo.</p>
+        <button class="check-solution">Ver Solução</button>
+        <div class="solution" style="display: none;">
+            <pre><code>git bisect start
+git bisect bad HEAD
+git bisect good HEAD~10
+# Teste e marque até encontrar</code></pre>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Tutorial Git. <a href="index.html">Voltar ao início</a></p>
+    </footer>
+
+    <button id="voltar-topo" class="voltar-topo" aria-label="Voltar ao topo">↑</button>
+</body>
+</html></content>
+<parameter name="filePath">c:\Users\Johnm\github\tutorial git\git-bisect.html

@@ -1,14 +1,16 @@
 :root {
-    --primary-color: #2b3a55;
-    --secondary-color: #3457D5;
-    --accent-color: #00bf8f;
-    --text-color: #333;
-    --bg-color: #ffffff;
-    --code-bg: #f8f8f8;
-    --warning-color: #ff6b6b;
+    --primary-color: #4A90E2; /* Azul amigável */
+    --secondary-color: #50C878; /* Verde menta */
+    --accent-color: #FFD700; /* Amarelo dourado */
+    --text-color: #2C3E50; /* Azul escuro para texto */
+    --bg-color: #F8F9FA; /* Branco cremoso */
+    --code-bg: #E8F4FD; /* Azul muito claro */
+    --warning-color: #FF6B6B; /* Vermelho suave */
+    --success-color: #32CD32; /* Verde limão */
+    --fun-color: #FF69B4; /* Rosa */
     --mobile-breakpoint: 768px;
 
-    /* Modo escuro */
+    /* Modo escuro - manter mais neutro */
     --dark-bg: #1a1a1a;
     --dark-text: #ffffff;
     --dark-code-bg: #2d2d2d;
@@ -26,16 +28,20 @@ body {
     color: var(--text-color);
     max-width: 1200px;
     margin: 0 auto;
+    background: linear-gradient(135deg, var(--bg-color) 0%, #E8F4FD 100%);
+    min-height: 100vh;
+}
 }
 
 nav {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     padding: 1rem;
     position: sticky;
     top: 0;
     z-index: 100;
-    border-radius: 8px;
+    border-radius: 15px;
     margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
 }
 
 nav a {
@@ -52,12 +58,27 @@ nav a:hover {
 
 h1, h2, h3 {
     color: var(--primary-color);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 h1 {
-    border-bottom: 3px solid var(--accent-color);
+    border-bottom: 5px solid var(--accent-color);
     padding-bottom: 15px;
     margin-top: 2rem;
+    font-size: 2.5rem;
+    background: linear-gradient(45deg, var(--primary-color), var(--fun-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+h1::before {
+    content: "🚀";
+    position: absolute;
+    left: -40px;
+    top: 0;
+    font-size: 2rem;
 }
 
 .git-command { color: var(--secondary-color); font-weight: bold; }
@@ -66,62 +87,102 @@ h1 {
 .git-comment { color: #7f8c8d; }
 
 code {
-    background-color: var(--code-bg);
-    padding: 3px 6px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    background: linear-gradient(135deg, var(--code-bg) 0%, #D1ECF1 100%);
+    padding: 4px 8px;
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
     font-family: 'Cascadia Code', 'Fira Code', monospace;
+    box-shadow: 0 2px 4px rgba(255, 215, 0, 0.2);
 }
 
 pre {
-    background-color: var(--code-bg);
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background: linear-gradient(135deg, var(--code-bg) 0%, #F0F8FF 100%);
+    padding: 20px;
+    border: 3px solid var(--secondary-color);
+    border-radius: 12px;
     overflow-x: auto;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(80, 200, 120, 0.3);
+    position: relative;
+}
+
+pre::before {
+    content: "💻";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
 }
 
 .warning {
-    color: var(--warning-color);
-    background: #fff5f5;
-    padding: 1rem;
-    border-left: 4px solid var(--warning-color);
-    border-radius: 4px;
-    margin: 1rem 0;
+    color: var(--text-color);
+    background: linear-gradient(135deg, #FFF3CD 0%, #FFEAA7 100%);
+    padding: 1.5rem;
+    border-left: 6px solid var(--warning-color);
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.2);
+    position: relative;
+}
+
+.warning::before {
+    content: "⚠️";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.5rem;
 }
 
 .faq-section {
-    background: #f9f9f9;
-    padding: 2rem;
-    border-radius: 8px;
-    margin: 2rem 0;
+    background: linear-gradient(135deg, #FFF8DC 0%, #F0E68C 100%);
+    padding: 2.5rem;
+    border-radius: 15px;
+    margin: 2.5rem 0;
+    box-shadow: 0 6px 12px rgba(255, 215, 0, 0.2);
+    border: 3px solid var(--accent-color);
 }
 
 .faq-item {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .faq-question {
     cursor: pointer;
-    color: var(--primary-color);
+    color: var(--text-color);
     font-weight: bold;
-    padding: 1rem;
-    background: white;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F8FF 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.faq-question::after {
+    content: "❓";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+}
     transition: background-color 0.3s ease;
 }
 
 .faq-question:hover {
-    background-color: #f0f0f0;
+    background: linear-gradient(135deg, #F0F8FF 0%, #E6F3FF 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3);
 }
 
 .faq-answer {
-    padding: 1rem;
-    margin-top: 0.5rem;
-    background: white;
-    border-radius: 4px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+    border-radius: 12px;
+    border: 2px solid var(--secondary-color);
+    box-shadow: 0 4px 8px rgba(80, 200, 120, 0.2);
+}
     display: none;
 }
 
@@ -575,4 +636,138 @@ a[target="_blank"]::after {
         min-height: 44px; /* Garantir área de toque adequada */
         padding: 8px 12px;
     }
+}
+
+/* Animações adicionais para melhor UX */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes bounceIn {
+    0% { opacity: 0; transform: scale(0.3); }
+    50% { opacity: 1; transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+h1 {
+    animation: bounceIn 0.8s ease-out;
+}
+
+h2, h3, p, pre, .exercise-item {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.exercise-item:hover .check-exercise {
+    animation: pulse 0.6s ease-in-out;
+}
+
+.exercise-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exercise-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Simulador de Terminal */
+#terminal-simulator {
+    background: linear-gradient(135deg, var(--code-bg) 0%, #E8F8F8 100%);
+    border: 4px solid var(--primary-color);
+    border-radius: 15px;
+    padding: 1.5rem;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    margin: 2.5rem 0;
+    box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3);
+    position: relative;
+}
+
+#terminal-simulator::before {
+    content: "🖥️ Terminal Git Simulator";
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    background: var(--accent-color);
+    color: var(--text-color);
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+#terminal-output {
+    min-height: 200px;
+    background: linear-gradient(135deg, #001122 0%, #002244 100%);
+    color: #00FF88;
+    padding: 1.5rem;
+    border-radius: 10px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    border: 2px solid var(--secondary-color);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+#terminal-input {
+    width: calc(100% - 120px);
+    padding: 0.75rem;
+    border: 3px solid var(--accent-color);
+    border-radius: 10px;
+    background: #FFFFFF;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(255, 215, 0, 0.2);
+}
+
+#run-command {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+    transition: all 0.3s ease;
+}
+
+#run-command:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(74, 144, 226, 0.4);
+}
+
+#github-examples {
+    margin: 2rem 0;
+}
+
+#repo-search {
+    padding: 0.5rem;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#search-repo {
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+#search-repo:hover {
+    background: var(--secondary-color);
+}
+
+#repo-results {
+    margin-top: 1rem;
 }
