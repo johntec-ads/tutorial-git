@@ -721,9 +721,19 @@ h2, h3, p, pre, .exercise-item {
     position: absolute;
     top: -18px;
     left: 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='currentColor' d='M3 5h18v10H3zM1 17h22v2H1z'/></svg>");
+}
+
+#terminal-simulator::after {
+    content: " Terminal Git Simulator";
+    position: absolute;
+    top: -18px;
+    left: 40px;
     background: var(--accent-color);
     color: var(--text-color);
     padding: 6px 10px;
@@ -731,13 +741,6 @@ h2, h3, p, pre, .exercise-item {
     font-size: 0.9rem;
     font-weight: bold;
 }
-
-#terminal-simulator .terminal-label {
-    display: inline-block;
-    margin-left: 2px;
-}
-
-#terminal-simulator::before::marker { /* noop to keep compatibility */ }
 
 /* Melhorias para compatibilidade de ícones emoji em pseudo-elementos
    Alguns celulares/skins não exibem emojis quando a família de fontes
