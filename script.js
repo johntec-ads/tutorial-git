@@ -250,16 +250,29 @@ document.addEventListener('DOMContentLoaded', () => {
         item.setAttribute('aria-label', `Navegar para seção ${itemText}`);
         item.setAttribute('tabindex', '0');
         
-        // Adiciona evento de clique
-        item.addEventListener('click', () => {
+        // Função reutilizável para navegar (previne múltiplos disparos em mobile)
+        const navigate = (e) => {
+            if (e) e.preventDefault && e.preventDefault();
+            // Se já navegamos recentemente por este item, ignore (evita duplo disparo)
+            if (item.__navigated) return;
+            item.__navigated = true;
+            // Usa setTimeout para permitir eventuais cliques seguintes após 500ms
+            setTimeout(() => { item.__navigated = false; }, 500);
             window.location.href = destination;
-        });
-        
+        };
+
+        // Adiciona evento de clique padrão
+        item.addEventListener('click', navigate);
+
+        // Suporte a toque direto (mais confiável em alguns browsers móveis)
+        item.addEventListener('touchend', navigate, { passive: false });
+        item.addEventListener('pointerup', navigate);
+
         // Adiciona navegação por teclado
         item.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                window.location.href = destination;
+                navigate(e);
             }
         });
     });
