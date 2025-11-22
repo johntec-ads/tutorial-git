@@ -378,6 +378,21 @@ a[target="_blank"]::after {
 
 pre { position: relative; }
 
+/* Ajustes para mobile: esconder botão copiar e dar mais espaço ao conteúdo
+   Os botões de copiar atrapalham a leitura dos cards de ajuda em telas pequenas,
+   então escondemos por padrão em telas <= 768px. Se preferir, podemos
+   substituir por um botão menor ou por um botão inline abaixo do código.
+*/
+@media (max-width: 768px) {
+    .copy-btn {
+        display: none !important;
+    }
+
+    pre {
+        padding-right: 0.75rem; /* reduz o padding para aproveitar espaço */
+    }
+}
+
 @media (max-width: 768px) {
     .menu-toggle {
         display: block;
